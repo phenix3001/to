@@ -1,27 +1,42 @@
 import { useEffect, useState } from 'react';
 import magnifierUrl from '../assets/level-one/magnifier.png';
-import { CaseId, clues, faceNames, suitcases } from '../lib/investigation';
+import {
+  caseForSuitcase,
+  clues,
+  faceNames,
+} from '../lib/investigation';
 import { Language } from '../lib/i18n';
+import {
+  suitcaseCatalog,
+  suitcasesById,
+  SuitcaseFaceIndex,
+  SuitcaseId,
+} from '../lib/suitcases';
+import { SuitcaseModel } from './SuitcaseModel';
+import { SuitcaseThumbnail } from './SuitcaseThumbnail';
 
 interface SuitcaseInspectorProps {
-  activeCase: CaseId;
-  face: number;
+  activeSuitcaseId: SuitcaseId;
+  face: SuitcaseFaceIndex;
   foundClues: string[];
   language: Language;
   magnifierActive: boolean;
-  onChooseCase: (id: CaseId) => void;
+  onChooseSuitcase: (id: SuitcaseId) => void;
   onFindClue: (clueId: string) => void;
   onRotate: (step: number) => void;
 }
 
 export function SuitcaseInspector(props: SuitcaseInspectorProps) {
   const {
-    activeCase, face, foundClues, language, magnifierActive,
-    onChooseCase, onFindClue, onRotate,
+    activeSuitcaseId, face, foundClues, language, magnifierActive,
+    onChooseSuitcase, onFindClue, onRotate,
   } = props;
   const [pointer, setPointer] = useState({ x: 0, y: 0, visible: false });
-  const suitcase = suitcases.find((item) => item.id === activeCase)!;
-  const visibleClues = clues.filter((clue) => clue.caseId === activeCase && clue.face === face);
+  const suitcase = suitcasesById.get(activeSuitcaseId)!;
+  const caseId = caseForSuitcase(activeSuitcaseId);
+  const visibleClues = caseId
+    ? clues.filter((clue) => clue.caseId === caseId && clue.face === face)
+    : [];
 
   useEffect(() => {
     function rotateWithKeyboard(event: KeyboardEvent) {
@@ -44,15 +59,26 @@ export function SuitcaseInspector(props: SuitcaseInspectorProps) {
   return (
     <section className="suitcase-inspector">
       <div
-        className={`suitcase-stage face-${face}${magnifierActive ? ' is-searching' : ''}`}
+        className={`suitcase-stage${magnifierActive ? ' is-searching' : ''}`}
         onMouseMove={(event) => {
           const bounds = event.currentTarget.getBoundingClientRect();
-          setPointer({ x: event.clientX - bounds.left, y: event.clientY - bounds.top, visible: true });
+          setPointer({
+            x: event.clientX - bounds.left,
+            y: event.clientY - bounds.top,
+            visible: true,
+          });
         }}
         onMouseLeave={() => setPointer((value) => ({ ...value, visible: false }))}
       >
-        <span className="suitcase-stage__side">{faceNames[language][face]} · {face + 1}/6</span>
-        <img className="inspected-suitcase" src={suitcase.image} alt={suitcase.name[language]} draggable={false} />
+        <span className="suitcase-stage__side">
+          {faceNames[language][face]} · {face + 1}/6
+        </span>
+        <SuitcaseModel
+          className="inspected-suitcase"
+          face={face}
+          label={suitcase.label[language]}
+          suitcase={suitcase}
+        />
 
         {visibleClues.map((clue) => {
           const isFound = foundClues.includes(clue.id);
@@ -62,7 +88,9 @@ export function SuitcaseInspector(props: SuitcaseInspectorProps) {
               className={`clue-target${magnifierActive ? ' can-detect' : ''}${isFound ? ' is-found' : ''}`}
               style={{ left: `${clue.x}%`, top: `${clue.y}%` }}
               onClick={() => onFindClue(clue.id)}
-              aria-label={isFound ? clue.title[language] : (language === 'ru' ? 'Неизвестная улика' : 'Unknown clue')}
+              aria-label={isFound
+                ? clue.title[language]
+                : (language === 'ru' ? 'Неизвестная улика' : 'Unknown clue')}
               key={clue.id}
             >
               <span>{isFound ? '✓' : '?'}</span>
@@ -87,16 +115,18 @@ export function SuitcaseInspector(props: SuitcaseInspectorProps) {
         <button type="button" onClick={() => onRotate(1)} aria-label={language === 'ru' ? 'Повернуть вправо' : 'Rotate right'}>→</button>
       </div>
 
-      <div className="suitcase-picker" aria-label={language === 'ru' ? 'Чемоданы' : 'Suitcases'}>
-        {suitcases.map((item) => (
+      <div className="suitcase-picker" aria-label={language === 'ru' ? '50 чемоданов' : '50 suitcases'}>
+        {suitcaseCatalog.map((item) => (
           <button
             type="button"
-            className={item.id === activeCase ? 'is-active' : ''}
-            onClick={() => onChooseCase(item.id)}
-            aria-label={item.name[language]}
+            className={item.id === activeSuitcaseId ? 'is-active' : ''}
+            onClick={() => onChooseSuitcase(item.id)}
+            aria-label={item.label[language]}
+            title={item.label[language]}
             key={item.id}
           >
-            <img src={item.image} alt="" draggable={false} />
+            <SuitcaseThumbnail suitcase={item} size={58} />
+            <small>{item.id.slice(-2)}</small>
           </button>
         ))}
       </div>

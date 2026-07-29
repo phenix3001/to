@@ -1,13 +1,13 @@
 import { useCallback, useMemo, useState } from 'react';
 import {
-  CaseId,
+  caseForSuitcase,
+  caseSuitcaseIds,
   clues,
-  readFoundClues,
-  readMatchedCases,
-  saveFoundClue,
-  saveMatchedCase,
 } from '../lib/investigation';
+import { useGameProgress } from '../lib/GameProgressContext';
 import { useLanguage } from '../lib/i18n';
+import { passengers, PassengerId } from '../lib/passengers';
+import { SuitcaseFaceIndex, SuitcaseId } from '../lib/suitcases';
 import { InvestigationNotebook } from './InvestigationNotebook';
 import { MagnifierTool } from './MagnifierTool';
 import { PassengerLineup } from './PassengerLineup';
@@ -15,27 +15,40 @@ import { SuitcaseInspector } from './SuitcaseInspector';
 
 export function InvestigationGame() {
   const { language } = useLanguage();
-  const [activeCase, setActiveCase] = useState<CaseId>('elderly');
-  const [face, setFace] = useState(0);
+  const {
+    foundClueIds: foundClues,
+    matchedCaseIds: matchedCases,
+    recordClue,
+    recordMatchedCase,
+  } = useGameProgress();
+  const [activeSuitcaseId, setActiveSuitcaseId] = useState<SuitcaseId>(
+    caseSuitcaseIds.elderly,
+  );
+  const [face, setFace] = useState<SuitcaseFaceIndex>(0);
   const [magnifierActive, setMagnifierActive] = useState(false);
-  const [foundClues, setFoundClues] = useState(readFoundClues);
-  const [matchedCases, setMatchedCases] = useState(readMatchedCases);
   const [notebookOpen, setNotebookOpen] = useState(false);
   const [message, setMessage] = useState(
     language === 'ru' ? 'Выберите чемодан, возьмите лупу и осмотрите все шесть сторон.' : 'Choose a suitcase, take the magnifier, and inspect all six sides.',
   );
+  const activeCase = caseForSuitcase(activeSuitcaseId);
 
   const rotate = useCallback((step: number) => {
-    setFace((current) => (current + step + 6) % 6);
+    setFace((current) => ((current + step + 6) % 6) as SuitcaseFaceIndex);
   }, []);
 
   const progress = useMemo(
     () => Math.round(((foundClues.length + matchedCases.length) / (clues.length + 3)) * 100),
     [foundClues, matchedCases],
   );
+  const matchedPassengerIds = useMemo(
+    () => passengers
+      .filter((passenger) => passenger.caseId && matchedCases.includes(passenger.caseId))
+      .map((passenger) => passenger.id),
+    [matchedCases],
+  );
 
-  function chooseCase(id: CaseId) {
-    setActiveCase(id);
+  function chooseSuitcase(id: SuitcaseId) {
+    setActiveSuitcaseId(id);
     setFace(0);
     setMessage(language === 'ru' ? 'Осмотрите каждую сторону стрелками.' : 'Use the arrow keys to inspect every side.');
   }
@@ -50,24 +63,30 @@ export function InvestigationGame() {
       setMessage(language === 'ru' ? 'Эта улика уже записана.' : 'This clue is already recorded.');
       return;
     }
-    setFoundClues(saveFoundClue(clueId));
+    recordClue(clueId);
     setMessage(`${language === 'ru' ? 'Записано' : 'Recorded'}: ${clue.title[language]}`);
   }
 
-  function choosePassenger(passengerId: CaseId) {
+  function choosePassenger(passengerId: PassengerId) {
+    if (!activeCase) {
+      setMessage(language === 'ru'
+        ? 'На этом чемодане пока нет улик о владельце.'
+        : 'This suitcase has no owner clues yet.');
+      return;
+    }
     const caseClues = clues.filter((clue) => clue.caseId === activeCase);
     if (!caseClues.every((clue) => foundClues.includes(clue.id))) {
       setMessage(language === 'ru' ? 'Сначала найдите обе улики на этом чемодане.' : 'Find both clues on this suitcase first.');
       return;
     }
-    if (passengerId !== activeCase) {
+    const passenger = passengers.find((item) => item.id === passengerId);
+    if (passenger?.caseId !== activeCase) {
       setMessage(language === 'ru' ? 'Улики указывают на другого пассажира.' : 'The evidence points to another passenger.');
       return;
     }
-    if (!matchedCases.includes(passengerId)) {
-      const next = saveMatchedCase(passengerId);
-      setMatchedCases(next);
-      setMessage(next.length === 3
+    if (!matchedCases.includes(activeCase)) {
+      recordMatchedCase(activeCase);
+      setMessage(matchedCases.length + 1 === 3
         ? (language === 'ru' ? 'Расследование завершено!' : 'Investigation complete!')
         : (language === 'ru' ? 'Владелец найден. Продолжайте расследование.' : 'Owner identified. Continue the investigation.'));
     }
@@ -88,14 +107,18 @@ export function InvestigationGame() {
       </div>
 
       <div className="investigation-workspace">
-        <PassengerLineup activeCase={activeCase} language={language} matchedCases={matchedCases} onChoose={choosePassenger} />
+        <PassengerLineup
+          language={language}
+          matchedPassengerIds={matchedPassengerIds}
+          onChoose={choosePassenger}
+        />
         <SuitcaseInspector
-          activeCase={activeCase}
+          activeSuitcaseId={activeSuitcaseId}
           face={face}
           foundClues={foundClues}
           language={language}
           magnifierActive={magnifierActive}
-          onChooseCase={chooseCase}
+          onChooseSuitcase={chooseSuitcase}
           onFindClue={findClue}
           onRotate={rotate}
         />

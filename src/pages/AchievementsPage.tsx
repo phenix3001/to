@@ -1,41 +1,58 @@
 import { Link } from 'wouter';
-import { clues, readFoundClues } from '../lib/investigation';
+import { useGameProgress } from '../lib/GameProgressContext';
+import { clues } from '../lib/investigation';
 import { useLanguage } from '../lib/i18n';
 import '../styles/achievements.css';
 
 export function AchievementsPage() {
-  const { language, text } = useLanguage();
-  const foundClues = readFoundClues();
-  const entries = clues.filter((clue) => foundClues.includes(clue.id));
+  const { text } = useLanguage();
+  const { foundClueIds, matchedCaseIds } = useGameProgress();
+  const achievements = [
+    {
+      title: text.firstStep,
+      description: text.firstStepDescription,
+      unlocked: true,
+    },
+    {
+      title: text.sharpEye,
+      description: text.sharpEyeDescription,
+      unlocked: foundClueIds.length > 0,
+    },
+    {
+      title: text.goodMemory,
+      description: text.goodMemoryDescription,
+      unlocked: foundClueIds.length === clues.length,
+    },
+    {
+      title: text.detective,
+      description: text.detectiveDescription,
+      unlocked: matchedCaseIds.length === 3,
+    },
+  ];
+  const unlockedCount = achievements.filter((achievement) => achievement.unlocked).length;
 
   return (
     <main className="achievements-page">
       <header className="achievements-page__header">
         <p>{text.notebook}</p>
-        <h1>{language === 'ru' ? 'Записи по делу' : 'Case notes'}</h1>
-        <span>
-          {language === 'ru'
-            ? `Найдено улик: ${entries.length} из ${clues.length}`
-            : `Evidence found: ${entries.length} of ${clues.length}`}
-        </span>
+        <h1>{text.achievements}</h1>
+        <span>{text.opened}: {unlockedCount} / {achievements.length}</span>
       </header>
 
-      <section className="achievements-grid notebook-evidence" aria-label={text.notebook}>
-        {entries.length === 0 && (
-          <p className="notebook-evidence__empty">
-            {language === 'ru'
-              ? 'Пока записей нет. Возьмите лупу на первом уровне и исследуйте чемоданы.'
-              : 'No notes yet. Take the magnifier on level one and inspect the suitcases.'}
-          </p>
-        )}
-        {entries.map((clue, index) => (
-          <article className="achievement achievement--unlocked" key={clue.id}>
+      <section className="achievements-grid" aria-label={text.achievements}>
+        {achievements.map((achievement, index) => (
+          <article
+            className={`achievement${achievement.unlocked ? ' achievement--unlocked' : ''}`}
+            key={achievement.title}
+          >
             <span className="achievement__icon" aria-hidden="true">{index + 1}</span>
             <div>
-              <h2>{clue.title[language]}</h2>
-              <p>{clue.description[language]}</p>
+              <h2>{achievement.title}</h2>
+              <p>{achievement.description}</p>
             </div>
-            <span className="achievement__status">✓</span>
+            <span className="achievement__status">
+              {achievement.unlocked ? text.opened : text.closed}
+            </span>
           </article>
         ))}
       </section>

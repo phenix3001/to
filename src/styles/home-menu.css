@@ -3,14 +3,14 @@
   min-height: 100svh;
   overflow: hidden;
   color: #f4d9a7;
-  background: #080604 url('../assets/detective-desk-menu.png') center / cover no-repeat;
+  background: #080604 url('../assets/detective-desk-menu-v2.png') center / cover no-repeat;
   isolation: isolate;
   user-select: none;
   -webkit-user-select: none;
 }
 
 [data-graphics-quality='2k'] .home-menu {
-  background-image: url('../assets/detective-desk-menu-2k.jpg');
+  background-image: url('../assets/detective-desk-menu-v2-2k.jpg');
 }
 
 .home-menu__shade {

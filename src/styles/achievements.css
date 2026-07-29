@@ -7,15 +7,6 @@
     #090705;
 }
 
-.notebook-evidence__empty {
-  padding: 28px;
-  border: 1px dashed #5b432d;
-  border-radius: 10px;
-  color: #9c8870;
-  background: rgba(25, 20, 16, .72);
-  text-align: center;
-}
-
 .achievements-page__header,
 .achievements-grid,
 .achievements-page__back {

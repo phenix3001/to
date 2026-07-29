@@ -114,7 +114,43 @@
 
 .settings-panel__back {
   display: inline-block;
-  margin-top: 28px;
+  padding: 0;
+  border: 0;
   color: #d79a5c;
+  background: transparent;
+  cursor: pointer;
   text-decoration: none;
+}
+
+.settings-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.settings-panel__menu {
+  padding: 9px 13px;
+  border: 1px solid #704923;
+  border-radius: 7px;
+  color: #f0d6af;
+  background: #4a2f1b;
+  text-decoration: none;
+}
+
+.game-settings-backdrop {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: flex;
+  overflow-y: auto;
+  padding: 24px;
+  background: rgba(4, 3, 2, .88);
+  backdrop-filter: blur(8px);
+}
+
+.game-settings-backdrop .settings-panel {
+  margin: auto;
 }

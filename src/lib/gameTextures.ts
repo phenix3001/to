@@ -1,19 +1,9 @@
 import magnifierUrl from '../assets/level-one/magnifier.png';
-import businessPassengerUrl from '../assets/level-one/passenger-business.png';
-import elderlyPassengerUrl from '../assets/level-one/passenger-elderly.png';
-import punkPassengerUrl from '../assets/level-one/passenger-punk.png';
-import blueSuitcaseUrl from '../assets/level-one/suitcase-blue.png';
-import leatherSuitcaseUrl from '../assets/level-one/suitcase-leather.png';
-import stickerSuitcaseUrl from '../assets/level-one/suitcase-stickers.png';
+import { passengerTextureUrls } from './passengers';
 
 const gameTextureUrls = [
   magnifierUrl,
-  businessPassengerUrl,
-  elderlyPassengerUrl,
-  punkPassengerUrl,
-  blueSuitcaseUrl,
-  leatherSuitcaseUrl,
-  stickerSuitcaseUrl,
+  ...passengerTextureUrls,
 ];
 
 function loadTexture(url: string) {

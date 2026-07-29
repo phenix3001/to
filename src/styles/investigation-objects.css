@@ -35,34 +35,10 @@
 }
 
 .inspected-suitcase {
-  width: min(88%, 650px);
-  height: 86%;
-  object-fit: contain;
+  width: 320px;
+  height: 330px;
   filter: drop-shadow(0 28px 18px rgba(0, 0, 0, .58));
   pointer-events: none;
-  transition: transform 260ms ease, filter 260ms ease;
-}
-
-.face-1 .inspected-suitcase {
-  transform: rotateY(-28deg) translateX(5%);
-}
-
-.face-2 .inspected-suitcase {
-  filter: brightness(.72) drop-shadow(0 28px 18px rgba(0, 0, 0, .58));
-  transform: scaleX(-1);
-}
-
-.face-3 .inspected-suitcase {
-  transform: rotateY(28deg) translateX(-5%);
-}
-
-.face-4 .inspected-suitcase {
-  transform: rotateX(34deg) scale(.88);
-}
-
-.face-5 .inspected-suitcase {
-  filter: brightness(.62) drop-shadow(0 28px 18px rgba(0, 0, 0, .58));
-  transform: rotateX(-34deg) scale(.88);
 }
 
 .clue-target {
@@ -115,5 +91,9 @@
 
   .magnifier-cursor {
     width: 115px;
+  }
+
+  .inspected-suitcase {
+    transform: scale(.88);
   }
 }
