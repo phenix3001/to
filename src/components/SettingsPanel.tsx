@@ -112,7 +112,7 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
         />
       </label>
 
-      <Auth />
+      {!onContinue && <Auth />}
 
       <div className="settings-panel__actions">
         {onContinue ? (

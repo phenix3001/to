@@ -37,10 +37,8 @@
 .inspected-suitcase {
   width: 320px;
   height: 330px;
-  filter: drop-shadow(18px 24px 12px rgba(0, 0, 0, .66));
+  filter: drop-shadow(0 28px 18px rgba(0, 0, 0, .58));
   pointer-events: none;
-  transform: translateY(52px) rotateX(54deg) rotateZ(-4deg) scale(.92);
-  transform-origin: 50% 70%;
 }
 
 .clue-target {
@@ -96,6 +94,6 @@
   }
 
   .inspected-suitcase {
-    transform: translateY(40px) rotateX(54deg) rotateZ(-4deg) scale(.78);
+    transform: scale(.88);
   }
 }
