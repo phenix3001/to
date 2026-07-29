@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   caseIdsForDay, clueIdsForDay, dailyCaseKey, dailyClueKey,
   firstIncompleteDay, isDayComplete,
@@ -9,6 +9,7 @@ import { clues } from '../lib/investigation';
 import { useLanguage } from '../lib/i18n';
 import { passengers, PassengerId } from '../lib/passengers';
 import { SuitcaseFaceIndex, SuitcaseId } from '../lib/suitcases';
+import { GameDayIntro } from './GameDayIntro';
 import { InvestigationDayHeader } from './InvestigationDayHeader';
 import { InvestigationNotebook } from './InvestigationNotebook';
 import { MagnifierTool } from './MagnifierTool';
@@ -20,6 +21,7 @@ export function InvestigationGame() {
   const progressState = useGameProgress();
   const initialDay = firstIncompleteDay(progressState.matchedCaseIds);
   const [currentDay, setCurrentDay] = useState<GameDayNumber>(initialDay);
+  const [introVisible, setIntroVisible] = useState(true);
   const day = getGameDay(currentDay);
   const [activeSuitcaseId, setActiveSuitcaseId] = useState<SuitcaseId>(
     day.caseSuitcaseIds.elderly,
@@ -49,9 +51,16 @@ export function InvestigationGame() {
     setFace((current) => ((current + step + 6) % 6) as SuitcaseFaceIndex);
   }, []);
 
+  useEffect(() => {
+    if (!introVisible) return;
+    const timer = window.setTimeout(() => setIntroVisible(false), 2600);
+    return () => window.clearTimeout(timer);
+  }, [currentDay, introVisible]);
+
   function selectDay(nextDay: GameDayNumber) {
     const next = getGameDay(nextDay);
     setCurrentDay(nextDay);
+    setIntroVisible(true);
     setActiveSuitcaseId(next.caseSuitcaseIds.elderly);
     setFace(0);
     setMessage(language === 'ru'
@@ -96,9 +105,13 @@ export function InvestigationGame() {
     }
   }
 
+  if (introVisible) {
+    return <GameDayIntro day={currentDay} language={language} />;
+  }
+
   return (
     <div className="investigation-game">
-      <InvestigationDayHeader currentDay={currentDay} language={language} progress={progress} />
+      <InvestigationDayHeader language={language} progress={progress} />
       <div className="investigation-workspace">
         <PassengerLineup language={language} matchedPassengerIds={matchedPassengerIds} onChoose={choosePassenger} passengers={dayPassengers} />
         <SuitcaseInspector activeSuitcaseId={activeSuitcaseId} day={day} face={face} foundClues={foundClues} language={language} magnifierActive={magnifierActive} onChooseSuitcase={(id) => { setActiveSuitcaseId(id); setFace(0); }} onFindClue={findClue} onRotate={rotate} />

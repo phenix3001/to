@@ -60,6 +60,37 @@
   opacity: .6;
 }
 
+.account-settings__google {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  color: #2d251e !important;
+  background: #f4eadb !important;
+}
+
+.account-settings__google b {
+  color: #4285f4;
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+}
+
+.account-settings__divider {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #786958;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.account-settings__divider::before,
+.account-settings__divider::after {
+  flex: 1;
+  border-top: 1px solid #3e3024;
+  content: '';
+}
+
 .account-settings__switch {
   justify-self: start;
   padding: 0 !important;

@@ -71,7 +71,7 @@
 .magnifier-tool,
 .notebook-tool {
   display: grid;
-  min-height: 125px;
+  min-height: 96px;
   place-items: center;
   padding: 12px;
   border: 1px solid #3c2c20;
@@ -88,8 +88,8 @@
 }
 
 .magnifier-tool img {
-  width: min(100%, 140px);
-  height: 86px;
+  width: min(100%, 82px);
+  height: 55px;
   object-fit: contain;
   pointer-events: none;
 }

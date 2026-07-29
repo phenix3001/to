@@ -26,6 +26,12 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
 
   return (
     <section className="settings-panel">
+      {onContinue && (
+        <Link href="/" className="settings-panel__top-menu">
+          ← {language === 'ru' ? 'Главное меню' : 'Main menu'}
+        </Link>
+      )}
+
       <header>
         <p>{text.gameOptions}</p>
         <h1>{text.settings}</h1>
@@ -110,14 +116,9 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
 
       <div className="settings-panel__actions">
         {onContinue ? (
-          <>
-            <button type="button" className="settings-panel__back" onClick={onContinue}>
-              ← {language === 'ru' ? 'Продолжить игру' : 'Continue game'}
-            </button>
-            <Link href="/" className="settings-panel__menu">
-              {language === 'ru' ? 'Главное меню' : 'Main menu'}
-            </Link>
-          </>
+          <button type="button" className="settings-panel__back" onClick={onContinue}>
+            ← {language === 'ru' ? 'Продолжить игру' : 'Continue game'}
+          </button>
         ) : (
           <Link href="/" className="settings-panel__back">← {text.backToDesk}</Link>
         )}

@@ -77,14 +77,3 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-.game-scene__back {
-  position: absolute;
-  z-index: 4;
-  right: 24px;
-  bottom: 24px;
-  color: #d49a58;
-  font-weight: 700;
-  text-decoration: none;
-  text-shadow: 0 2px 6px #000;
-}

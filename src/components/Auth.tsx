@@ -3,6 +3,7 @@ import { useAuth } from '../lib/auth';
 import { useGameProgress } from '../lib/GameProgressContext';
 import { useLanguage } from '../lib/i18n';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
+import { GoogleAuthButton } from './GoogleAuthButton';
 import '../styles/auth.css';
 
 const copy = {
@@ -18,6 +19,8 @@ const copy = {
     needsAccount: 'Нет аккаунта? Зарегистрироваться',
     signedIn: 'Вы вошли как',
     signOut: 'Выйти',
+    google: 'Продолжить с Google',
+    orEmail: 'или через почту',
     created: 'Аккаунт создан. Прогресс сохранён.',
     confirm: 'Проверьте почту, затем войдите в аккаунт.',
     failed: 'Не получилось. Проверьте данные и попробуйте снова.',
@@ -38,6 +41,8 @@ const copy = {
     needsAccount: 'No account? Create one',
     signedIn: 'Signed in as',
     signOut: 'Sign out',
+    google: 'Continue with Google',
+    orEmail: 'or use email',
     created: 'Account created. Progress saved.',
     confirm: 'Check your email, then sign in.',
     failed: 'Something went wrong. Check your details and try again.',
@@ -114,6 +119,12 @@ export function Auth() {
       ) : (
         <>
           <span className="account-settings__description">{text.description}</span>
+          <GoogleAuthButton
+            disabled={busy}
+            label={text.google}
+            onError={() => setMessage(text.failed)}
+          />
+          <span className="account-settings__divider">{text.orEmail}</span>
           <form className="account-settings__form" onSubmit={handleSubmit}>
             <input
               type="email"

@@ -1,25 +1,16 @@
-import { GameDayNumber } from '../lib/gameDays';
 import { Language } from '../lib/i18n';
-import '../styles/day-intro.css';
 
 interface InvestigationDayHeaderProps {
-  currentDay: GameDayNumber;
   language: Language;
   progress: number;
 }
 
 export function InvestigationDayHeader({
-  currentDay,
   language,
   progress,
 }: InvestigationDayHeaderProps) {
   return (
     <>
-      <div className="day-intro" aria-live="polite" key={currentDay}>
-        <span>{language === 'ru' ? 'День' : 'Day'}</span>
-        <strong>{currentDay}</strong>
-      </div>
-
       <header className="case-progress">
         <div
           className="case-progress__track"

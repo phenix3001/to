@@ -18,6 +18,17 @@
   box-shadow: 0 24px 70px #000;
 }
 
+.settings-panel__top-menu {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #d79a5c;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .settings-panel header p {
   color: #b77b3e;
   font-size: 11px;
@@ -129,15 +140,6 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 28px;
-}
-
-.settings-panel__menu {
-  padding: 9px 13px;
-  border: 1px solid #704923;
-  border-radius: 7px;
-  color: #f0d6af;
-  background: #4a2f1b;
-  text-decoration: none;
 }
 
 .game-settings-backdrop {
