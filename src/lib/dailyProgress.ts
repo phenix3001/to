@@ -33,8 +33,3 @@ export function isDayComplete(keys: string[], day: GameDayNumber) {
 export function firstIncompleteDay(keys: string[]): GameDayNumber {
   return gameDayNumbers.find((day) => !isDayComplete(keys, day)) ?? 7;
 }
-
-export function unlockedDay(keys: string[]): GameDayNumber {
-  const firstIncomplete = firstIncompleteDay(keys);
-  return firstIncomplete;
-}

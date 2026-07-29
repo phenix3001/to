@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import {
   caseIdsForDay, clueIdsForDay, dailyCaseKey, dailyClueKey,
-  firstIncompleteDay, isDayComplete, unlockedDay,
+  firstIncompleteDay, isDayComplete,
 } from '../lib/dailyProgress';
 import { caseForDaySuitcase, getGameDay, GameDayNumber } from '../lib/gameDays';
 import { useGameProgress } from '../lib/GameProgressContext';
@@ -36,7 +36,6 @@ export function InvestigationGame() {
   const matchedCases = caseIdsForDay(progressState.matchedCaseIds, currentDay);
   const activeCase = caseForDaySuitcase(day, activeSuitcaseId);
   const dayComplete = isDayComplete(progressState.matchedCaseIds, currentDay);
-  const unlockedThrough = unlockedDay(progressState.matchedCaseIds);
   const dayPassengers = useMemo(
     () => day.passengerIds.map((id) => passengers.find((item) => item.id === id)!),
     [day],
@@ -99,7 +98,7 @@ export function InvestigationGame() {
 
   return (
     <div className="investigation-game">
-      <InvestigationDayHeader currentDay={currentDay} language={language} onSelectDay={selectDay} progress={progress} unlockedThrough={unlockedThrough} />
+      <InvestigationDayHeader currentDay={currentDay} language={language} progress={progress} />
       <div className="investigation-workspace">
         <PassengerLineup language={language} matchedPassengerIds={matchedPassengerIds} onChoose={choosePassenger} passengers={dayPassengers} />
         <SuitcaseInspector activeSuitcaseId={activeSuitcaseId} day={day} face={face} foundClues={foundClues} language={language} magnifierActive={magnifierActive} onChooseSuitcase={(id) => { setActiveSuitcaseId(id); setFace(0); }} onFindClue={findClue} onRotate={rotate} />

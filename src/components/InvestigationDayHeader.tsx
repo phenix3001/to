@@ -1,23 +1,25 @@
-import { gameDayNumbers, GameDayNumber } from '../lib/gameDays';
+import { GameDayNumber } from '../lib/gameDays';
 import { Language } from '../lib/i18n';
+import '../styles/day-intro.css';
 
 interface InvestigationDayHeaderProps {
   currentDay: GameDayNumber;
   language: Language;
-  onSelectDay: (day: GameDayNumber) => void;
   progress: number;
-  unlockedThrough: GameDayNumber;
 }
 
 export function InvestigationDayHeader({
   currentDay,
   language,
-  onSelectDay,
   progress,
-  unlockedThrough,
 }: InvestigationDayHeaderProps) {
   return (
     <>
+      <div className="day-intro" aria-live="polite" key={currentDay}>
+        <span>{language === 'ru' ? 'День' : 'Day'}</span>
+        <strong>{currentDay}</strong>
+      </div>
+
       <header className="case-progress">
         <div
           className="case-progress__track"
@@ -32,26 +34,10 @@ export function InvestigationDayHeader({
       </header>
 
       <div className="investigation-heading">
-        <nav className="day-selector" aria-label={language === 'ru' ? 'Игровые дни' : 'Game days'}>
-          {gameDayNumbers.map((day) => {
-            const locked = day > unlockedThrough;
-            return (
-              <button
-                type="button"
-                className={day === currentDay ? 'is-active' : ''}
-                disabled={locked}
-                onClick={() => onSelectDay(day)}
-                key={day}
-              >
-                {locked ? '🔒' : day}
-              </button>
-            );
-          })}
-        </nav>
         <p>
           {language === 'ru'
-            ? `День ${currentDay} из 7 · Бюро находок`
-            : `Day ${currentDay} of 7 · Lost luggage`}
+            ? 'Дело · Бюро находок'
+            : 'Case · Lost luggage'}
         </p>
         <h1>{language === 'ru' ? 'Осмотр багажа' : 'Luggage inspection'}</h1>
       </div>
