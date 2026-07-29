@@ -1,7 +1,6 @@
 import {
   createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState,
 } from 'react';
-import { CaseId } from './investigation';
 import { useAuth } from './auth';
 import {
   clearGuestProgress,
@@ -17,7 +16,7 @@ export type SyncStatus = 'local' | 'syncing' | 'synced' | 'error';
 
 interface GameProgressContextValue extends GameProgress {
   recordClue: (id: string) => void;
-  recordMatchedCase: (id: CaseId) => void;
+  recordMatchedCase: (id: string) => void;
   syncStatus: SyncStatus;
 }
 
@@ -120,7 +119,7 @@ export function GameProgressProvider({ children }: { children: ReactNode }) {
     }));
   }, [applyProgress]);
 
-  const recordMatchedCase = useCallback((id: CaseId) => {
+  const recordMatchedCase = useCallback((id: string) => {
     if (progressRef.current.matchedCaseIds.includes(id)) return;
     applyProgress(mergeProgress(progressRef.current, {
       foundClueIds: [],

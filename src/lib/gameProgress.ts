@@ -1,9 +1,12 @@
-import { CaseId, clues } from './investigation';
+import { dailyCaseKey, dailyClueKey } from './dailyProgress';
+import { gameDayNumbers, GameDayNumber } from './gameDays';
+import { clues } from './investigation';
+import { CaseId } from './investigationTypes';
 import { supabase } from './supabase';
 
 export interface GameProgress {
   foundClueIds: string[];
-  matchedCaseIds: CaseId[];
+  matchedCaseIds: string[];
 }
 
 export const EMPTY_PROGRESS: GameProgress = {
@@ -22,15 +25,36 @@ function validStrings(value: unknown) {
     : [];
 }
 
+function validDay(value: string): value is `${GameDayNumber}` {
+  return gameDayNumbers.some((day) => String(day) === value);
+}
+
+function normalizeClueKey(value: string) {
+  if (clues.some((clue) => clue.id === value)) return dailyClueKey(1, value);
+  const match = /^day-([1-7]):clue:(.+)$/.exec(value);
+  if (!match || !validDay(match[1])) return null;
+  return clues.some((clue) => clue.id === match[2]) ? value : null;
+}
+
+function normalizeCaseKey(value: string) {
+  const caseIds: readonly CaseId[] = ['elderly', 'punk', 'business'];
+  if (caseIds.includes(value as CaseId)) return dailyCaseKey(1, value as CaseId);
+  const match = /^day-([1-7]):case:(.+)$/.exec(value);
+  if (!match || !validDay(match[1])) return null;
+  return caseIds.includes(match[2] as CaseId) ? value : null;
+}
+
 export function normalizeProgress(value: unknown): GameProgress {
   const record = typeof value === 'object' && value !== null
     ? value as Record<string, unknown>
     : {};
   return {
     foundClueIds: [...new Set(validStrings(record.foundClueIds)
-      .filter((id) => clues.some((clue) => clue.id === id)))],
+      .map(normalizeClueKey)
+      .filter((id): id is string => id !== null))],
     matchedCaseIds: [...new Set(validStrings(record.matchedCaseIds)
-      .filter((id): id is CaseId => ['elderly', 'punk', 'business'].includes(id)))],
+      .map(normalizeCaseKey)
+      .filter((id): id is string => id !== null))],
   };
 }
 

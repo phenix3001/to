@@ -1,17 +1,19 @@
 import { Language } from '../lib/i18n';
-import { passengers, PassengerId } from '../lib/passengers';
+import { Passenger, PassengerId } from '../lib/passengers';
 import { PassengerModel } from './PassengerModel';
 
 interface PassengerLineupProps {
   language: Language;
   matchedPassengerIds: PassengerId[];
   onChoose: (id: PassengerId) => void;
+  passengers: Passenger[];
 }
 
 export function PassengerLineup({
   language,
   matchedPassengerIds,
   onChoose,
+  passengers,
 }: PassengerLineupProps) {
   return (
     <section

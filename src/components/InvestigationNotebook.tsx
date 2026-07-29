@@ -1,18 +1,30 @@
 import { clues } from '../lib/investigation';
+import { GameDay } from '../lib/gameDays';
 import { Language } from '../lib/i18n';
+import { passengers } from '../lib/passengers';
 
 interface InvestigationNotebookProps {
+  day: GameDay;
   foundClues: string[];
   language: Language;
   onClose: () => void;
 }
 
 export function InvestigationNotebook({
+  day,
   foundClues,
   language,
   onClose,
 }: InvestigationNotebookProps) {
   const entries = clues.filter((clue) => foundClues.includes(clue.id));
+
+  function ownerEvidence(caseId: keyof GameDay['caseOwners']) {
+    const ownerId = day.caseOwners[caseId];
+    const owner = passengers.find((passenger) => passenger.id === ownerId)!;
+    return language === 'ru'
+      ? `Найденная улика связана с пассажиром: ${owner.name.ru}.`
+      : `The evidence is connected to passenger: ${owner.name.en}.`;
+  }
 
   return (
     <div className="case-notebook-backdrop" role="presentation" onMouseDown={onClose}>
@@ -35,7 +47,7 @@ export function InvestigationNotebook({
             {entries.map((clue) => (
               <li key={clue.id}>
                 <strong>{clue.title[language]}</strong>
-                <span>{clue.description[language]}</span>
+                <span>{ownerEvidence(clue.caseId)}</span>
               </li>
             ))}
           </ol>

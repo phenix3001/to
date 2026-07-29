@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import magnifierUrl from '../assets/level-one/magnifier.png';
 import {
-  caseForSuitcase,
   clues,
   faceNames,
 } from '../lib/investigation';
+import { caseForDaySuitcase, GameDay } from '../lib/gameDays';
 import { Language } from '../lib/i18n';
 import {
   suitcaseCatalog,
@@ -17,6 +17,7 @@ import { SuitcaseThumbnail } from './SuitcaseThumbnail';
 
 interface SuitcaseInspectorProps {
   activeSuitcaseId: SuitcaseId;
+  day: GameDay;
   face: SuitcaseFaceIndex;
   foundClues: string[];
   language: Language;
@@ -28,12 +29,12 @@ interface SuitcaseInspectorProps {
 
 export function SuitcaseInspector(props: SuitcaseInspectorProps) {
   const {
-    activeSuitcaseId, face, foundClues, language, magnifierActive,
+    activeSuitcaseId, day, face, foundClues, language, magnifierActive,
     onChooseSuitcase, onFindClue, onRotate,
   } = props;
   const [pointer, setPointer] = useState({ x: 0, y: 0, visible: false });
   const suitcase = suitcasesById.get(activeSuitcaseId)!;
-  const caseId = caseForSuitcase(activeSuitcaseId);
+  const caseId = caseForDaySuitcase(day, activeSuitcaseId);
   const visibleClues = caseId
     ? clues.filter((clue) => clue.caseId === caseId && clue.face === face)
     : [];
@@ -115,8 +116,10 @@ export function SuitcaseInspector(props: SuitcaseInspectorProps) {
         <button type="button" onClick={() => onRotate(1)} aria-label={language === 'ru' ? 'Повернуть вправо' : 'Rotate right'}>→</button>
       </div>
 
-      <div className="suitcase-picker" aria-label={language === 'ru' ? '50 чемоданов' : '50 suitcases'}>
-        {suitcaseCatalog.map((item) => (
+      <div className="suitcase-picker" aria-label={language === 'ru' ? '6 чемоданов' : '6 suitcases'}>
+        {suitcaseCatalog
+          .filter((item) => day.suitcaseIds.includes(item.id))
+          .map((item) => (
           <button
             type="button"
             className={item.id === activeSuitcaseId ? 'is-active' : ''}
@@ -128,7 +131,7 @@ export function SuitcaseInspector(props: SuitcaseInspectorProps) {
             <SuitcaseThumbnail suitcase={item} size={58} />
             <small>{item.id.slice(-2)}</small>
           </button>
-        ))}
+          ))}
       </div>
     </section>
   );

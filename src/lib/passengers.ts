@@ -1,11 +1,10 @@
-import { CaseId, CharacterHitbox, LocalizedText } from './investigationTypes';
+import { CharacterHitbox, LocalizedText } from './investigationTypes';
 import { getCharacterHitbox } from './characterHitboxes';
 
 export type PassengerId = `passenger-${string}`;
 
 interface PassengerDefinition {
   name: LocalizedText;
-  caseId?: CaseId;
 }
 
 export interface Passenger extends PassengerDefinition {
@@ -22,15 +21,15 @@ const images = import.meta.glob<string>(
 const definitions: PassengerDefinition[] = [
   { name: { ru: 'Алиса Орлова', en: 'Alice Orlova' } },
   { name: { ru: 'Марк Ветров', en: 'Mark Vetrov' } },
-  { name: { ru: 'Нина Соколова', en: 'Nina Sokolova' }, caseId: 'elderly' },
+  { name: { ru: 'Нина Соколова', en: 'Nina Sokolova' } },
   { name: { ru: 'Леон Белов', en: 'Leon Belov' } },
   { name: { ru: 'Тимур Азимов', en: 'Timur Azimov' } },
   { name: { ru: 'Вера Лебедева', en: 'Vera Lebedeva' } },
   { name: { ru: 'Илья Морозов', en: 'Ilya Morozov' } },
-  { name: { ru: 'Майя Волкова', en: 'Maya Volkova' }, caseId: 'punk' },
+  { name: { ru: 'Майя Волкова', en: 'Maya Volkova' } },
   { name: { ru: 'Глеб Романов', en: 'Gleb Romanov' } },
   { name: { ru: 'Лола Миронова', en: 'Lola Mironova' } },
-  { name: { ru: 'Ева Крылова', en: 'Eva Krylova' }, caseId: 'business' },
+  { name: { ru: 'Ева Крылова', en: 'Eva Krylova' } },
   { name: { ru: 'Ян Новак', en: 'Jan Novak' } },
   { name: { ru: 'Агата Рид', en: 'Agatha Reed' } },
   { name: { ru: 'Феликс Бергер', en: 'Felix Berger' } },

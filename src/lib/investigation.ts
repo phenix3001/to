@@ -1,6 +1,5 @@
 import { Language } from './i18n';
 import { CaseId, LocalizedText } from './investigationTypes';
-import { SuitcaseId } from './suitcases';
 
 export type { CaseId } from './investigationTypes';
 
@@ -12,18 +11,6 @@ export interface Clue {
   y: number;
   title: LocalizedText;
   description: LocalizedText;
-}
-
-export const caseSuitcaseIds: Record<CaseId, SuitcaseId> = {
-  elderly: 'suitcase-03',
-  punk: 'suitcase-08',
-  business: 'suitcase-11',
-};
-
-export function caseForSuitcase(suitcaseId: SuitcaseId): CaseId | null {
-  const entry = Object.entries(caseSuitcaseIds)
-    .find(([, id]) => id === suitcaseId);
-  return entry ? entry[0] as CaseId : null;
 }
 
 export const clues: Clue[] = [

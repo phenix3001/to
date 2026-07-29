@@ -21,12 +21,12 @@ export function AchievementsPage() {
     {
       title: text.goodMemory,
       description: text.goodMemoryDescription,
-      unlocked: foundClueIds.length === clues.length,
+      unlocked: foundClueIds.length === clues.length * 7,
     },
     {
       title: text.detective,
       description: text.detectiveDescription,
-      unlocked: matchedCaseIds.length === 3,
+      unlocked: matchedCaseIds.length === 3 * 7,
     },
   ];
   const unlockedCount = achievements.filter((achievement) => achievement.unlocked).length;

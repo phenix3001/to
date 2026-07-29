@@ -9,6 +9,36 @@
   margin: 0 auto 18px;
 }
 
+.day-selector {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 13px;
+}
+
+.day-selector button {
+  width: 34px;
+  height: 30px;
+  border: 1px solid #4c3726;
+  border-radius: 6px;
+  color: #a98d6b;
+  background: #17100b;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.day-selector button.is-active {
+  border-color: #d59045;
+  color: #fff0d3;
+  background: #6f4627;
+}
+
+.day-selector button:disabled {
+  color: #5b4a3a;
+  cursor: not-allowed;
+  opacity: .65;
+}
+
 .investigation-heading p {
   color: #bd7d3e;
   font-size: 10px;
@@ -34,7 +64,7 @@
 
 .passenger-lineup {
   display: grid;
-  grid-template-columns: repeat(4, minmax(64px, 1fr));
+  grid-template-columns: repeat(2, minmax(92px, 1fr));
   align-content: start;
   gap: 8px;
   max-height: min(65svh, 690px);
@@ -122,13 +152,23 @@
   gap: 12px;
 }
 
+.next-day-button {
+  min-height: 54px;
+  border: 1px solid #b77a3e;
+  border-radius: 8px;
+  color: #f4d3a2;
+  background: #6b3f20;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 @media (max-width: 940px) {
   .investigation-workspace {
     grid-template-columns: 1fr;
   }
 
   .passenger-lineup {
-    grid-template-columns: repeat(8, minmax(74px, 1fr));
+    grid-template-columns: repeat(6, minmax(74px, 1fr));
     max-height: none;
     height: 170px;
     overflow-x: auto;
@@ -156,7 +196,7 @@
   }
 
   .passenger-lineup {
-    grid-template-columns: repeat(8, minmax(68px, 1fr));
+    grid-template-columns: repeat(6, minmax(68px, 1fr));
     height: 154px;
   }
 
