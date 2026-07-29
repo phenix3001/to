@@ -1,0 +1,120 @@
+.settings-page {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 24px;
+  color: #ead8b8;
+  background:
+    radial-gradient(circle at 25% 20%, rgba(145, 84, 32, .2), transparent 38%),
+    #080604;
+}
+
+.settings-panel {
+  width: min(100%, 560px);
+  padding: clamp(24px, 6vw, 48px);
+  border: 1px solid #4b3421;
+  border-radius: 18px;
+  background: rgba(24, 18, 13, .94);
+  box-shadow: 0 24px 70px #000;
+}
+
+.settings-panel header p {
+  color: #b77b3e;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.settings-panel h1 {
+  margin: 8px 0 32px;
+  font-family: var(--game-font);
+  font-size: clamp(36px, 8vw, 54px);
+  font-weight: 500;
+}
+
+.language-setting {
+  display: grid;
+  gap: 12px;
+  padding: 20px 0;
+  border-top: 1px solid #34261b;
+  font-weight: 700;
+}
+
+.language-setting__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.language-setting button {
+  padding: 10px;
+  border: 1px solid #4b392a;
+  border-radius: 8px;
+  color: #9c8c78;
+  background: #1c1611;
+  cursor: pointer;
+}
+
+.language-setting button.is-active {
+  border-color: #bd7d3e;
+  color: #f0d6af;
+  background: #4a2f1b;
+}
+
+.setting-row,
+.setting-toggle {
+  display: grid;
+  gap: 12px;
+  padding: 20px 0;
+  border-top: 1px solid #34261b;
+}
+
+.setting-row span,
+.setting-toggle {
+  font-weight: 700;
+}
+
+.setting-row strong {
+  float: right;
+  color: #c98949;
+}
+
+.setting-row input {
+  width: 100%;
+  accent-color: #bd7d3e;
+}
+
+.setting-toggle {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.setting-toggle small {
+  display: block;
+  margin-top: 5px;
+  color: #827363;
+  font-weight: 400;
+}
+
+.setting-toggle em {
+  display: block;
+  margin-top: 8px;
+  color: #c18b52;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.setting-toggle input {
+  width: 20px;
+  height: 20px;
+  accent-color: #bd7d3e;
+}
+
+.settings-panel__back {
+  display: inline-block;
+  margin-top: 28px;
+  color: #d79a5c;
+  text-decoration: none;
+}

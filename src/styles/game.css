@@ -1,0 +1,90 @@
+.loading-screen {
+  min-height: 100svh;
+  color: #ecd8b4;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(101, 61, 27, .32), transparent 35%),
+    #050403;
+}
+
+.loading-screen {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.loading-screen__content {
+  width: min(100%, 480px);
+  text-align: center;
+}
+
+.loading-screen__label {
+  color: #b77c42;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+
+.loading-screen h1 {
+  margin: 12px 0 42px;
+  font-family: var(--game-font);
+  font-size: clamp(54px, 12vw, 90px);
+  font-weight: 500;
+}
+
+.loading-screen__track {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #2f251c;
+}
+
+.loading-screen__track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8f582b, #e2a65e);
+  box-shadow: 0 0 15px rgba(226, 166, 94, .55);
+  transition: width 180ms ease;
+}
+
+.loading-screen__progress,
+.loading-screen__error {
+  margin-top: 16px;
+  color: #8c7c69;
+  font-size: 12px;
+}
+
+.loading-screen button {
+  margin-top: 22px;
+  padding: 12px 18px;
+  border: 1px solid #8f582b;
+  border-radius: 8px;
+  color: #ecd8b4;
+  background: #332114;
+  cursor: pointer;
+}
+
+.game-scene {
+  position: relative;
+  min-height: 100svh;
+  overflow-x: hidden;
+  color: #ead8b8;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(101, 61, 27, .26), transparent 38%),
+    radial-gradient(circle at 15% 80%, rgba(79, 42, 17, .2), transparent 30%),
+    #050403;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.game-scene__back {
+  position: absolute;
+  z-index: 4;
+  right: 24px;
+  bottom: 24px;
+  color: #d49a58;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: 0 2px 6px #000;
+}

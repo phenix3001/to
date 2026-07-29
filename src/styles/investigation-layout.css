@@ -1,0 +1,137 @@
+.investigation-game {
+  min-height: 100svh;
+  padding: 76px clamp(18px, 3vw, 46px) 74px;
+  color: #ead8b8;
+}
+
+.investigation-heading {
+  width: min(100%, 1440px);
+  margin: 0 auto 18px;
+}
+
+.investigation-heading p {
+  color: #bd7d3e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.investigation-heading h1 {
+  margin-top: 4px;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 500;
+}
+
+.investigation-workspace {
+  display: grid;
+  grid-template-columns: minmax(210px, .72fr) minmax(440px, 1.7fr) minmax(170px, .58fr);
+  gap: clamp(12px, 2vw, 24px);
+  width: min(100%, 1440px);
+  min-height: min(65svh, 690px);
+  margin-inline: auto;
+}
+
+.passenger-lineup {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.passenger-card {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #38291e;
+  border-radius: 10px;
+  color: #c9b18e;
+  background: linear-gradient(145deg, rgba(45, 32, 22, .92), rgba(15, 11, 8, .96));
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.passenger-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 32%;
+  pointer-events: none;
+  transform: scale(1.58);
+}
+
+.passenger-card span {
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  left: 8px;
+  padding: 6px;
+  border-radius: 5px;
+  background: rgba(9, 7, 5, .82);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.passenger-card em {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #f0bb69;
+  font-size: 22px;
+  font-style: normal;
+}
+
+.passenger-card:hover,
+.passenger-card:focus-visible {
+  border-color: #9a6738;
+  box-shadow: 0 0 22px rgba(185, 118, 55, .2);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.passenger-card.is-related {
+  border-color: #725033;
+}
+
+.passenger-card.is-matched {
+  border-color: #b9864c;
+  background: linear-gradient(145deg, rgba(78, 51, 27, .92), rgba(20, 14, 9, .96));
+}
+
+.investigation-tools {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+@media (max-width: 940px) {
+  .investigation-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .passenger-lineup {
+    grid-template-rows: none;
+    grid-template-columns: repeat(3, 1fr);
+    height: 190px;
+    order: 2;
+  }
+
+  .investigation-tools {
+    grid-template-columns: 1fr 1fr;
+    order: 3;
+  }
+}
+
+@media (max-width: 560px) {
+  .investigation-game {
+    padding-inline: 10px;
+  }
+
+  .investigation-heading h1 {
+    font-size: 28px;
+  }
+
+  .passenger-lineup {
+    height: 145px;
+  }
+}

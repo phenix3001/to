@@ -2,13 +2,9 @@ import { Link } from 'wouter';
 
 export function NotFoundPage() {
   return (
-    <main className="container">
-      <section className="hello">
-        <h1>Такой страницы пока нет</h1>
-        <p>
-          <Link href="/">Вернуться на главную</Link>
-        </p>
-      </section>
+    <main className="simple-page">
+      <h1>Такой страницы пока нет</h1>
+      <Link href="/">Вернуться в главное меню</Link>
     </main>
   );
 }
