@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'Runtti SP';
+  src: url('/Runtti%20SP%20Cyrillic/RunttiSP-Bold.otf') format('opentype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --game-font: 'Runtti SP', Inter, system-ui, sans-serif;
+  font-family: var(--game-font);
+  color: #f8fafc;
+  background: #080604;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+.simple-page {
+  display: grid;
+  min-height: 100vh;
+  align-content: center;
+  justify-items: center;
+  gap: 16px;
+  padding: 24px;
+  color: #ead2aa;
+  background: radial-gradient(circle at 50% 35%, #332316, #090705 70%);
+  text-align: center;
+}
+
+.simple-page h1 {
+  font-family: var(--game-font);
+}
+
+.simple-page a {
+  color: #d89a4c;
+}
