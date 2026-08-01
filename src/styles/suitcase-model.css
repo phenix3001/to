@@ -1,0 +1,122 @@
+.suitcase-model {
+  position: relative;
+  width: 240px;
+  height: 280px;
+  perspective: 850px;
+  perspective-origin: 50% 44%;
+}
+
+.suitcase-model__body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--case-width);
+  height: var(--case-height);
+  transform: translate(-50%, -50%) var(--case-rotation);
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.2, .7, .2, 1);
+}
+
+.suitcase-model__face,
+.suitcase-thumbnail {
+  border: 3px solid var(--case-edge);
+  border-radius: 8px;
+  background-color: var(--face-color);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--case-accent) 30%, transparent);
+}
+
+.suitcase-model__face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: visible;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.suitcase-model__face::before,
+.suitcase-thumbnail::before {
+  position: absolute;
+  inset: 5%;
+  border-radius: 4px;
+  content: '';
+  opacity: .42;
+  pointer-events: none;
+}
+
+.suitcase-model__face--front,
+.suitcase-model__face--back {
+  width: var(--case-width);
+  height: var(--case-height);
+}
+.suitcase-model__face--front { transform: translate(-50%, -50%) translateZ(calc(var(--case-depth) / 2)); }
+.suitcase-model__face--back { transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--case-depth) / 2)); }
+.suitcase-model__face--right,
+.suitcase-model__face--left { width: var(--case-depth); height: var(--case-height); }
+.suitcase-model__face--right { transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--case-width) / 2)); }
+.suitcase-model__face--left { transform: translate(-50%, -50%) rotateY(-90deg) translateZ(calc(var(--case-width) / 2)); }
+.suitcase-model__face--top,
+.suitcase-model__face--bottom { width: var(--case-width); height: var(--case-depth); }
+.suitcase-model__face--top { transform: translate(-50%, -50%) rotateX(90deg) translateZ(calc(var(--case-height) / 2)); }
+.suitcase-model__face--bottom { transform: translate(-50%, -50%) rotateX(-90deg) translateZ(calc(var(--case-height) / 2)); }
+
+[data-pattern='vertical-ribs']::before { background: repeating-linear-gradient(90deg, #21180f00 0 11%, #21180f66 12% 14%); }
+[data-pattern='horizontal-ribs']::before { background: repeating-linear-gradient(0deg, #21180f00 0 11%, #21180f66 12% 14%); }
+[data-pattern='fine-grid']::before { background: repeating-linear-gradient(90deg, #251d173d 0 1px, transparent 1px 8px), repeating-linear-gradient(0deg, #251d173d 0 1px, transparent 1px 8px); }
+[data-pattern='diagonal']::before { background: repeating-linear-gradient(135deg, transparent 0 12px, #21180f5c 13px 17px); }
+[data-pattern='chevron']::before { background: linear-gradient(135deg, transparent 42%, #21180f55 43% 49%, transparent 50%) 0 0/28px 28px, linear-gradient(45deg, transparent 42%, #21180f55 43% 49%, transparent 50%) 14px 0/28px 28px; }
+[data-pattern='bands']::before { background: linear-gradient(90deg, transparent 20%, #21180f66 21% 31%, transparent 32% 68%, #21180f66 69% 79%, transparent 80%); }
+[data-pattern='speckle']::before { background: radial-gradient(circle, #21180f77 0 1px, transparent 2px) 0 0/12px 11px; }
+[data-pattern='weave']::before { background: repeating-linear-gradient(45deg, #21180f35 0 2px, transparent 2px 6px), repeating-linear-gradient(-45deg, #21180f2f 0 2px, transparent 2px 6px); }
+[data-pattern='diamond']::before { background: linear-gradient(45deg, transparent 45%, #21180f52 46% 52%, transparent 53%) 0 0/24px 24px, linear-gradient(-45deg, transparent 45%, #21180f52 46% 52%, transparent 53%) 0 0/24px 24px; }
+
+.suitcase-model__feature {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border-color: var(--case-hardware);
+}
+
+[data-detail='panel'] .feature-a,
+[data-detail='rear-panel'] .feature-a {
+  inset: 19% 16%;
+  border: 3px solid var(--case-hardware);
+  border-radius: 7px;
+}
+[data-detail='front-pocket'] .feature-a { right: 12%; bottom: 12%; left: 12%; height: 34%; border: 3px solid var(--case-hardware); border-radius: 8px; background: #0002; }
+[data-detail='front-pocket'] .feature-b { right: 20%; bottom: 39%; left: 20%; border-top: 3px solid var(--case-hardware); }
+[data-detail='cross-straps'] .feature-a { top: 0; bottom: 0; left: 45%; width: 10%; background: var(--case-accent); border-inline: 2px solid var(--case-hardware); }
+[data-detail='cross-straps'] .feature-b { top: 45%; right: 0; left: 0; height: 10%; background: var(--case-accent); border-block: 2px solid var(--case-hardware); }
+[data-detail='double-buckle'] .feature-a,
+[data-detail='double-buckle'] .feature-b { top: 8%; bottom: 8%; width: 13%; border: 3px solid var(--case-hardware); background: #0002; }
+[data-detail='double-buckle'] .feature-a { left: 21%; }
+[data-detail='double-buckle'] .feature-b { right: 21%; }
+[data-detail='rivet-frame'] .feature-a { inset: 9%; border: 4px dotted var(--case-hardware); border-radius: 5px; }
+[data-detail='rear-seam'] .feature-a { top: 8%; bottom: 8%; left: 50%; border-left: 4px dashed var(--case-hardware); }
+[data-detail='side-handle'] .feature-a { top: 34%; left: 22%; width: 56%; height: 25%; border: 5px solid var(--case-hardware); border-radius: 12px; }
+[data-detail='side-feet'] .feature-a,
+[data-detail='side-feet'] .feature-b { right: 18%; width: 18%; height: 11%; background: var(--case-hardware); border-radius: 3px; }
+[data-detail='side-feet'] .feature-a { top: 18%; }
+[data-detail='side-feet'] .feature-b { bottom: 18%; }
+[data-detail='top-handle'] .feature-a { top: 20%; left: 34%; width: 32%; height: 62%; border: 6px solid var(--case-hardware); border-bottom-width: 2px; border-radius: 13px 13px 4px 4px; }
+[data-detail='wheel-base'] .feature-a,
+[data-detail='wheel-base'] .feature-b { top: 20%; width: 14%; aspect-ratio: 1; border: 3px solid #171513; border-radius: 50%; background: var(--case-hardware); }
+[data-detail='wheel-base'] .feature-a { left: 12%; }
+[data-detail='wheel-base'] .feature-b { right: 12%; }
+
+.suitcase-model[data-trim='square'] .suitcase-model__face,
+.suitcase-thumbnail[data-trim='square'] { border-radius: 2px; }
+.suitcase-model[data-trim='reinforced'] .suitcase-model__face,
+.suitcase-thumbnail[data-trim='reinforced'] { border-width: 5px; box-shadow: inset 0 0 0 5px #0003; }
+
+.suitcase-thumbnail {
+  position: relative;
+  flex: none;
+  height: var(--thumbnail-height);
+  overflow: hidden;
+}
+.suitcase-thumbnail .suitcase-model__feature { pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .suitcase-model__body { transition: none; }
+}
