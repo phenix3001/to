@@ -25,6 +25,9 @@ export function GamePage() {
       <header className="asset-gallery__header">
         <Link href="/">← {language === 'ru' ? 'Назад' : 'Back'}</Link>
         <h1>{language === 'ru' ? 'Персонажи и чемоданы' : 'Characters and suitcases'}</h1>
+        <Link href="/play" className="asset-gallery__play-link">
+          {language === 'ru' ? 'Игровое меню →' : 'Play menu →'}
+        </Link>
       </header>
 
       {hintsEnabled && (
@@ -38,12 +41,16 @@ export function GamePage() {
             <figure
               key={passenger.id}
               className="character-card"
+              data-passenger-id={passenger.id}
               data-variant={index % 6}
               style={characterStyle(index)}
             >
               <b>{passenger.id.slice(-2)}</b>
               <img src={passenger.image} alt={passenger.name[language]} />
-              <figcaption>{passenger.name[language]}</figcaption>
+              <figcaption>
+                <strong>{passenger.name[language]}</strong>
+                <span>{passenger.profession[language]}</span>
+              </figcaption>
             </figure>
           ))}
         </div>

@@ -27,17 +27,20 @@ interface ViewerMaterial {
 
 interface ViewerElement extends HTMLElement {
   animationName: string;
-  cameraOrbit: string;
   currentTime: number;
-  getCameraOrbit?: () => {
-    phi: number;
-    radius: number;
-    theta: number;
-  };
   model?: { materials: ViewerMaterial[] };
   pause?: () => void;
   play?: (options?: { repetitions?: number }) => void;
 }
+
+type SuitcaseAxis = 'x' | 'y' | 'z';
+type AxisDirection = 'positive' | 'negative';
+
+const axisOrbits: Record<SuitcaseAxis, Record<AxisDirection, string>> = {
+  x: { positive: '90deg 90deg auto', negative: '-90deg 90deg auto' },
+  y: { positive: '0deg 1deg auto', negative: '0deg 179deg auto' },
+  z: { positive: '0deg 90deg auto', negative: '180deg 90deg auto' },
+};
 
 export function SuitcaseViewer({
   isOpen,
@@ -50,7 +53,8 @@ export function SuitcaseViewer({
 }: SuitcaseViewerProps) {
   const modelRef = useRef<ViewerElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const [cameraWasMoved, setCameraWasMoved] = useState(false);
+  const [axis, setAxis] = useState<SuitcaseAxis>('z');
+  const [direction, setDirection] = useState<AxisDirection>('positive');
   const prefersReducedMotion = usePrefersReducedMotion();
   const showModel = view === '3d' && hasWebGLSupport();
   const canUseNativeAnimation = Boolean(
@@ -100,32 +104,47 @@ export function SuitcaseViewer({
     return 'opens-hinged';
   }
 
-  function handleArrowKey(event: KeyboardEvent<HTMLDivElement>) {
-    const viewer = modelRef.current;
-    const orbit = viewer?.getCameraOrbit?.();
-    if (!viewer || !orbit || !event.key.startsWith('Arrow')) return;
+  function chooseAxis(nextAxis: SuitcaseAxis) {
+    if (nextAxis === axis) {
+      setDirection((current) =>
+        current === 'positive' ? 'negative' : 'positive');
+      return;
+    }
 
-    const angleStep = Math.PI / 18;
-    const nextTheta = orbit.theta + (
-      event.key === 'ArrowLeft' ? -angleStep
-        : event.key === 'ArrowRight' ? angleStep
-          : 0
-    );
-    const nextPhi = Math.min(
-      Math.PI - 0.08,
-      Math.max(
-        0.08,
-        orbit.phi + (
-          event.key === 'ArrowUp' ? -angleStep
-            : event.key === 'ArrowDown' ? angleStep
-              : 0
-        ),
-      ),
-    );
+    setAxis(nextAxis);
+    setDirection('positive');
+  }
+
+  function chooseDirectionalView(
+    nextAxis: SuitcaseAxis,
+    requestedDirection: AxisDirection,
+  ) {
+    if (nextAxis !== axis) {
+      setAxis(nextAxis);
+      setDirection(requestedDirection);
+      return;
+    }
+
+    setDirection((current) =>
+      current === requestedDirection
+        ? (current === 'positive' ? 'negative' : 'positive')
+        : requestedDirection);
+  }
+
+  function handleArrowKey(event: KeyboardEvent<HTMLDivElement>) {
+    const views: Partial<Record<string, [SuitcaseAxis, AxisDirection]>> = {
+      ArrowDown: ['y', 'negative'],
+      ArrowUp: ['y', 'positive'],
+      ArrowLeft: ['x', 'negative'],
+      ArrowRight: ['x', 'positive'],
+      PageDown: ['z', 'negative'],
+      PageUp: ['z', 'positive'],
+    };
+    const nextView = views[event.key];
+    if (!nextView) return;
 
     event.preventDefault();
-    setCameraWasMoved(true);
-    viewer.cameraOrbit = `${nextTheta}rad ${nextPhi}rad ${orbit.radius}m`;
+    chooseDirectionalView(nextView[0], nextView[1]);
   }
 
   const stageClass = [
@@ -142,8 +161,8 @@ export function SuitcaseViewer({
       tabIndex={showModel ? 0 : undefined}
       aria-label={showModel
         ? `${title}. ${language === 'ru'
-          ? 'Поворачивайте модель клавишами со стрелками'
-          : 'Rotate the model with the arrow keys'}`
+          ? 'Стрелки переключают оси X и Y, Page Up и Page Down переключают ось Z'
+          : 'Arrow keys switch X and Y views; Page Up and Page Down switch Z views'}`
         : undefined}
       onKeyDown={handleArrowKey}
       onPointerDown={() => stageRef.current?.focus()}
@@ -155,10 +174,7 @@ export function SuitcaseViewer({
             src={suitcase.modelUrl}
             poster={suitcase.imageUrl}
             alt={title}
-            camera-controls
-            auto-rotate={
-              isOpen || prefersReducedMotion || cameraWasMoved ? undefined : true
-            }
+            camera-orbit={axisOrbits[axis][direction]}
             shadow-intensity="1"
             exposure="1"
             loading="lazy"
@@ -173,6 +189,31 @@ export function SuitcaseViewer({
           />
         )}
       </div>
+      {showModel && (
+        <div
+          className="luggage-axis-controls"
+          role="group"
+          aria-label={language === 'ru' ? 'Ось просмотра' : 'View axis'}
+        >
+          {(Object.keys(axisOrbits) as SuitcaseAxis[]).map((axisName) => (
+            <button
+              type="button"
+              className={axis === axisName ? 'is-active' : ''}
+              aria-pressed={axis === axisName}
+              aria-label={`${axisName.toUpperCase()} ${
+                axis === axisName && direction === 'negative' ? '−' : '+'
+              }. ${language === 'ru'
+                ? 'Нажмите повторно для обратного ракурса'
+                : 'Press again for the opposite view'}`}
+              onClick={() => chooseAxis(axisName)}
+              key={axisName}
+            >
+              {axisName.toUpperCase()}
+              {axis === axisName && (direction === 'positive' ? '+' : '−')}
+            </button>
+          ))}
+        </div>
+      )}
       {!canUseNativeAnimation && (
         <div className="luggage-stage__split" aria-hidden="true">
           <div className="luggage-stage__split-base">

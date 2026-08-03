@@ -6,6 +6,7 @@ interface ModelViewerAttributes
   poster?: string;
   alt?: string;
   'camera-controls'?: boolean;
+  'camera-orbit'?: string;
   'auto-rotate'?: boolean;
   'shadow-intensity'?: string;
   exposure?: string;

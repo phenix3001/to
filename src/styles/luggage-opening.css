@@ -30,6 +30,41 @@
   height: 100%;
 }
 
+.luggage-axis-controls {
+  position: absolute;
+  z-index: 3;
+  bottom: 12px;
+  left: 50%;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #6f4c2d;
+  border-radius: 8px;
+  background: rgb(12 8 5 / 88%);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 55%);
+  transform: translateX(-50%);
+  transition: opacity .2s ease;
+}
+
+.luggage-axis-controls button {
+  min-width: 42px;
+  border-right: 1px solid #4b3826;
+  color: #c7ad88;
+}
+
+.luggage-axis-controls button:last-child {
+  border-right: 0;
+}
+
+.luggage-axis-controls button.is-active {
+  color: #17100a;
+  background: #d89a4c;
+}
+
+.luggage-stage.is-open .luggage-axis-controls {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .luggage-stage.is-open:not(.has-native-animation)
   .luggage-stage__visual {
   opacity: 0;
