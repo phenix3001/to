@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
+import { useGameSettings } from '../lib/GameSettingsContext';
 import { useLanguage } from '../lib/i18n';
 import {
   applyGraphicsQuality,
@@ -14,9 +15,12 @@ interface SettingsPanelProps {
 
 export function SettingsPanel({ onContinue }: SettingsPanelProps) {
   const { language, setLanguage, text } = useLanguage();
-  const [music, setMusic] = useState(65);
-  const [sounds, setSounds] = useState(80);
-  const [hints, setHints] = useState(true);
+  const {
+    hintsEnabled,
+    setHintsEnabled,
+    mobileLayoutEnabled,
+    setMobileLayoutEnabled,
+  } = useGameSettings();
   const [graphicsQuality, setGraphicsQuality] = useState(readGraphicsQuality);
 
   function changeGraphicsQuality(value: GraphicsQuality) {
@@ -57,28 +61,6 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
         </div>
       </div>
 
-      <label className="setting-row">
-        <span>{text.music} <strong>{music}%</strong></span>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={music}
-          onChange={(event) => setMusic(Number(event.target.value))}
-        />
-      </label>
-
-      <label className="setting-row">
-        <span>{text.sounds} <strong>{sounds}%</strong></span>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={sounds}
-          onChange={(event) => setSounds(Number(event.target.value))}
-        />
-      </label>
-
       <div className="language-setting">
         <span>{text.imageQuality}</span>
         <div className="language-setting__buttons">
@@ -107,8 +89,20 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
         </span>
         <input
           type="checkbox"
-          checked={hints}
-          onChange={(event) => setHints(event.target.checked)}
+          checked={hintsEnabled}
+          onChange={(event) => setHintsEnabled(event.target.checked)}
+        />
+      </label>
+
+      <label className="setting-toggle">
+        <span>
+          {text.mobileVersion}
+          <small>{text.mobileVersionDescription}</small>
+        </span>
+        <input
+          type="checkbox"
+          checked={mobileLayoutEnabled}
+          onChange={(event) => setMobileLayoutEnabled(event.target.checked)}
         />
       </label>
 

@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
+import { readStorage, writeStorage } from './safeStorage';
 
 export type Language = 'ru' | 'en';
 
@@ -28,26 +29,27 @@ const translations = {
     texturesReady: 'Все текстуры загружены',
     backToDesk: 'Вернуться к столу',
     gameOptions: 'Параметры игры',
-    music: 'Музыка',
-    sounds: 'Звуки',
     imageQuality: 'Качество изображения',
     standardQuality: 'Стандарт · 1672×941',
     hints: 'Подсказки',
     hintsDescription: 'Подсказки помогут вам по мере прохождения',
     hintsRecommendation: 'Рекомендуем включить во время первого прохождения',
+    mobileVersion: 'Мобильная версия',
+    mobileVersionDescription: 'Компактный интерфейс с крупными кнопками',
+    luggageHint: 'Нажмите «Открыть» на чемодане, чтобы увидеть бытовые предметы внутри.',
     language: 'Язык',
     notebook: 'Личный блокнот',
     opened: 'Открыто',
     closed: 'Закрыто',
     openedCount: 'Открыто 1 из 4',
     firstStep: 'Первый шаг',
-    firstStepDescription: 'Начать первое расследование',
+    firstStepDescription: 'Открыть первый предмет багажа',
     sharpEye: 'Зоркий глаз',
-    sharpEyeDescription: 'Найти важную улику',
+    sharpEyeDescription: 'Найти 8 разных бытовых предметов',
     goodMemory: 'Хорошая память',
-    goodMemoryDescription: 'Открыть все записи в деле',
+    goodMemoryDescription: 'Найти все 16 видов предметов',
     detective: 'Настоящий детектив',
-    detectiveDescription: 'Завершить расследование',
+    detectiveDescription: 'Открыть все 40 предметов багажа',
   },
   en: {
     title: 'Strange Airport',
@@ -74,26 +76,27 @@ const translations = {
     texturesReady: 'All textures are loaded',
     backToDesk: 'Return to the desk',
     gameOptions: 'Game options',
-    music: 'Music',
-    sounds: 'Sounds',
     imageQuality: 'Image quality',
     standardQuality: 'Standard · 1672×941',
     hints: 'Hints',
     hintsDescription: 'Hints will help you as you progress',
     hintsRecommendation: 'Recommended for your first playthrough',
+    mobileVersion: 'Mobile version',
+    mobileVersionDescription: 'Compact layout with larger controls',
+    luggageHint: 'Select Open on a suitcase to see the household items inside.',
     language: 'Language',
     notebook: 'Personal notebook',
     opened: 'Unlocked',
     closed: 'Locked',
     openedCount: 'Unlocked 1 of 4',
     firstStep: 'First step',
-    firstStepDescription: 'Start the first investigation',
+    firstStepDescription: 'Open the first piece of luggage',
     sharpEye: 'Sharp eye',
-    sharpEyeDescription: 'Find an important clue',
+    sharpEyeDescription: 'Find 8 different household items',
     goodMemory: 'Good memory',
-    goodMemoryDescription: 'Open every case note',
+    goodMemoryDescription: 'Find all 16 item types',
     detective: 'True detective',
-    detectiveDescription: 'Complete the investigation',
+    detectiveDescription: 'Open all 40 pieces of luggage',
   },
 };
 
@@ -107,12 +110,12 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
-    return localStorage.getItem('game-language') === 'en' ? 'en' : 'ru';
+    return readStorage('game-language') === 'en' ? 'en' : 'ru';
   });
 
   function setLanguage(value: Language) {
-    localStorage.setItem('game-language', value);
     setLanguageState(value);
+    writeStorage('game-language', value);
   }
 
   return (

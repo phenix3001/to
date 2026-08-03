@@ -105,24 +105,59 @@
     background-position: 50% center;
   }
 
+  :is(
+    .home-menu__play,
+    .home-menu__achievements,
+    .home-menu__settings
+  ) {
+    top: auto;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: 30%;
+    height: 56px;
+  }
+
   .home-menu__play {
-    top: 69%;
-    left: 14%;
-    width: 86%;
-    height: 24%;
+    left: 3%;
   }
 
   .home-menu__achievements {
-    top: 70%;
-    left: 72%;
-    width: 70%;
-    height: 27%;
+    left: 35%;
   }
 
   .home-menu__settings {
-    top: 77%;
-    left: 0;
-    width: 45%;
-    height: 16%;
+    left: 67%;
+  }
+
+  :is(.magnifier, .notebook-button, .wrench-button) {
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(205, 154, 94, .58);
+    border-radius: 8px;
+    color: #f4d9a7;
+    background: rgba(14, 10, 7, .82);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, .48);
+    text-decoration: none;
+    touch-action: manipulation;
+  }
+
+  :is(.magnifier, .notebook-button, .wrench-button):focus-visible {
+    outline: 2px solid #f4d9a7;
+    outline-offset: 3px;
+  }
+
+  :is(.magnifier, .notebook-button, .wrench-button) .object-label,
+  :is(.magnifier, .notebook-button, .wrench-button):is(:hover, :focus-visible) .object-label {
+    position: static;
+    padding: 0 4px;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    box-shadow: none;
+    font-size: clamp(9px, 2.8vw, 12px);
+    line-height: 1.15;
+    opacity: 1;
+    text-align: center;
+    transform: none;
+    white-space: normal;
   }
 }

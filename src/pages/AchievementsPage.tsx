@@ -1,32 +1,41 @@
 import { Link } from 'wouter';
+import {
+  GALLERY_ITEM_PREFIX,
+  GALLERY_LUGGAGE_PREFIX,
+} from '../lib/gameProgress';
 import { useGameProgress } from '../lib/GameProgressContext';
-import { clues } from '../lib/investigation';
 import { useLanguage } from '../lib/i18n';
+import { householdItems } from '../lib/luggage/householdItems';
+import { realSuitcases } from '../lib/realSuitcases';
 import '../styles/achievements.css';
 
 export function AchievementsPage() {
   const { text } = useLanguage();
   const { foundClueIds, matchedCaseIds } = useGameProgress();
+  const foundItems = foundClueIds.filter((id) =>
+    id.startsWith(GALLERY_ITEM_PREFIX));
+  const openedLuggage = matchedCaseIds.filter((id) =>
+    id.startsWith(GALLERY_LUGGAGE_PREFIX));
   const achievements = [
     {
       title: text.firstStep,
       description: text.firstStepDescription,
-      unlocked: true,
+      unlocked: openedLuggage.length > 0,
     },
     {
       title: text.sharpEye,
       description: text.sharpEyeDescription,
-      unlocked: foundClueIds.length > 0,
+      unlocked: foundItems.length >= 8,
     },
     {
       title: text.goodMemory,
       description: text.goodMemoryDescription,
-      unlocked: foundClueIds.length === clues.length * 7,
+      unlocked: foundItems.length === householdItems.length,
     },
     {
       title: text.detective,
       description: text.detectiveDescription,
-      unlocked: matchedCaseIds.length === 3 * 7,
+      unlocked: openedLuggage.length === realSuitcases.length,
     },
   ];
   const unlockedCount = achievements.filter((achievement) => achievement.unlocked).length;

@@ -12,17 +12,17 @@ export type SuitcasePalette =
   | 'ochre' | 'tan' | 'walnut' | 'cocoa' | 'ash'
   | 'graphite' | 'smoke' | 'sand' | 'bronze' | 'umber';
 
-const palettes: Record<SuitcasePalette, SuitcaseConfig['colors']> = {
-  ochre: { shell: '#a97937', shade: '#755127', accent: '#c19a5b', edge: '#30251c', hardware: '#4b4035' },
-  tan: { shell: '#a38359', shade: '#766044', accent: '#c2a77d', edge: '#352c24', hardware: '#514940' },
-  walnut: { shell: '#765035', shade: '#523824', accent: '#a47a50', edge: '#29211b', hardware: '#49423b' },
-  cocoa: { shell: '#68483a', shade: '#45312a', accent: '#96705c', edge: '#261f1c', hardware: '#4c4540' },
-  ash: { shell: '#77716a', shade: '#55514c', accent: '#9d9488', edge: '#302e2b', hardware: '#494846' },
-  graphite: { shell: '#44413e', shade: '#2d2b29', accent: '#6f6961', edge: '#1f1e1c', hardware: '#625d55' },
-  smoke: { shell: '#65625e', shade: '#464440', accent: '#89837a', edge: '#292825', hardware: '#55524c' },
-  sand: { shell: '#a08d6d', shade: '#72634c', accent: '#bca884', edge: '#373028', hardware: '#555047' },
-  bronze: { shell: '#8a673d', shade: '#62482c', accent: '#ad8955', edge: '#30251d', hardware: '#52483d' },
-  umber: { shell: '#574238', shade: '#3c302a', accent: '#806454', edge: '#211c19', hardware: '#48413c' },
+const paletteSeeds: Record<SuitcasePalette, number> = {
+  ochre: 42,
+  tan: 18,
+  walnut: 350,
+  cocoa: 326,
+  ash: 208,
+  graphite: 238,
+  smoke: 178,
+  sand: 92,
+  bronze: 26,
+  umber: 286,
 };
 
 const patterns: readonly SuitcasePattern[] = [
@@ -39,6 +39,40 @@ const backDetails: readonly SuitcaseDetail[] = [
 function patternAfter(pattern: SuitcasePattern, step: number) {
   const index = patterns.indexOf(pattern);
   return patterns[(index + step) % patterns.length];
+}
+
+function createColors(
+  palette: SuitcasePalette,
+  suitcaseNumber: number,
+): SuitcaseConfig['colors'] {
+  const hue = (paletteSeeds[palette] + suitcaseNumber * 47) % 360;
+  const saturation = 48 + (suitcaseNumber % 4) * 7;
+  const lightness = 34 + (suitcaseNumber % 5) * 3;
+  const accentHue = (hue + 115 + suitcaseNumber * 9) % 360;
+
+  return {
+    shell: `hsl(${hue} ${saturation}% ${lightness}%)`,
+    shade: `hsl(${hue} ${Math.max(34, saturation - 14)}% ${Math.max(18, lightness - 14)}%)`,
+    accent: `hsl(${accentHue} 72% 64%)`,
+    edge: `hsl(${(hue + 12) % 360} 28% 13%)`,
+    hardware: suitcaseNumber % 2 === 0 ? '#d8c7a2' : '#342d28',
+  };
+}
+
+function varyDimensions(
+  dimensions: readonly [number, number, number],
+  suitcaseNumber: number,
+) {
+  const [width, height, depth] = dimensions;
+  const variants = [
+    { width: width - 18, height: height + 24, depth },
+    { width: width + 28, height: height - 20, depth: depth + 8 },
+    { width: width - 8, height: height - 26, depth: depth + 14 },
+    { width: width + 20, height: height + 10, depth: depth - 6 },
+    { width, height, depth },
+  ];
+
+  return variants[suitcaseNumber % variants.length];
 }
 
 export function createSuitcase(
@@ -66,8 +100,8 @@ export function createSuitcase(
     visualThemePassengerId: passengerNumber <= 40
       ? `passenger-${number}`
       : null,
-    dimensions: { width: dimensions[0], height: dimensions[1], depth: dimensions[2] },
-    colors: palettes[palette],
+    dimensions: varyDimensions(dimensions, passengerNumber),
+    colors: createColors(palette, passengerNumber),
     trim,
     faces,
   };

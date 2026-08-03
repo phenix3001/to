@@ -4,6 +4,8 @@ import {
 import { useAuth } from './auth';
 import {
   clearGuestProgress,
+  galleryItemKey,
+  galleryLuggageKey,
   GameProgress,
   loadCloudProgress,
   mergeProgress,
@@ -15,8 +17,7 @@ import {
 export type SyncStatus = 'local' | 'syncing' | 'synced' | 'error';
 
 interface GameProgressContextValue extends GameProgress {
-  recordClue: (id: string) => void;
-  recordMatchedCase: (id: string) => void;
+  recordLuggageOpened: (luggageId: string, itemIds: readonly string[]) => void;
   syncStatus: SyncStatus;
 }
 
@@ -111,27 +112,25 @@ export function GameProgressProvider({ children }: { children: ReactNode }) {
     };
   }, [authLoading, queueCloudSave, user?.id]);
 
-  const recordClue = useCallback((id: string) => {
-    if (progressRef.current.foundClueIds.includes(id)) return;
-    applyProgress(mergeProgress(progressRef.current, {
-      foundClueIds: [id],
-      matchedCaseIds: [],
-    }));
-  }, [applyProgress]);
-
-  const recordMatchedCase = useCallback((id: string) => {
-    if (progressRef.current.matchedCaseIds.includes(id)) return;
-    applyProgress(mergeProgress(progressRef.current, {
-      foundClueIds: [],
-      matchedCaseIds: [id],
-    }));
+  const recordLuggageOpened = useCallback((
+    luggageId: string,
+    itemIds: readonly string[],
+  ) => {
+    const next = mergeProgress(progressRef.current, {
+      foundClueIds: itemIds.map(galleryItemKey),
+      matchedCaseIds: [galleryLuggageKey(luggageId)],
+    });
+    if (
+      next.foundClueIds.length === progressRef.current.foundClueIds.length
+      && next.matchedCaseIds.length === progressRef.current.matchedCaseIds.length
+    ) return;
+    applyProgress(next);
   }, [applyProgress]);
 
   return (
     <GameProgressContext.Provider value={{
       ...progress,
-      recordClue,
-      recordMatchedCase,
+      recordLuggageOpened,
       syncStatus,
     }}>
       {children}

@@ -1,0 +1,186 @@
+/* Shared phone layout fixes. Page-specific desktop styles stay in their own files. */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button,
+a,
+input {
+  touch-action: manipulation;
+}
+
+html[data-mobile-layout='true'] body {
+  background: #080604;
+}
+
+html[data-mobile-layout='true'] #root {
+  width: min(100%, 430px);
+  min-height: 100svh;
+  margin-inline: auto;
+  overflow-x: hidden;
+  box-shadow: 0 0 48px #000;
+}
+
+html[data-mobile-layout='true'] .character-grid,
+html[data-mobile-layout='true'] .suitcase-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+html[data-mobile-layout='true'] .real-suitcase-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+html[data-mobile-layout='true'] .asset-gallery {
+  padding-inline: 12px;
+}
+
+html[data-mobile-layout='true'] .language-setting__buttons {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 600px) {
+  .asset-gallery {
+    padding:
+      max(20px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      max(32px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  .asset-gallery__header {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .asset-gallery h1 {
+    font-size: clamp(28px, 10vw, 40px);
+    line-height: 1.05;
+  }
+
+  .asset-gallery__hint {
+    width: 100%;
+    margin: -8px 0 22px;
+  }
+
+  .character-grid,
+  .suitcase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .character-card,
+  .suitcase-card {
+    min-width: 0;
+    min-height: 145px;
+    padding: 8px;
+  }
+
+  .character-card img,
+  .character-card:nth-child(3n) img,
+  .character-card:nth-child(4n) img {
+    height: 145px;
+  }
+
+  .real-suitcase-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .real-suitcase-card__toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .real-suitcase-card model-viewer,
+  .real-suitcase-card__image,
+  .luggage-stage {
+    height: clamp(220px, 70vw, 280px);
+  }
+
+  .settings-page,
+  .game-settings-backdrop {
+    padding:
+      max(12px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      max(12px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  .settings-panel {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .settings-panel h1 {
+    margin-bottom: 20px;
+    font-size: clamp(32px, 12vw, 44px);
+  }
+
+  .language-setting__buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-panel__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .settings-panel__actions > * {
+    min-height: 44px;
+  }
+
+  .achievements-page {
+    padding:
+      max(24px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      max(32px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  .achievement {
+    gap: 10px;
+    padding: 14px 10px;
+  }
+
+  .luggage-contents {
+    inset: 14px 10px 10px;
+    padding: 9px;
+  }
+
+  .luggage-contents li {
+    min-height: 70px;
+  }
+
+  .luggage-contents li model-viewer,
+  .luggage-contents li img {
+    width: 44px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 380px) {
+  .character-grid,
+  .suitcase-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .real-suitcase-card__actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-menu__play,
+  .home-menu__achievements,
+  .home-menu__settings {
+    bottom: max(6px, env(safe-area-inset-bottom));
+    height: 44px;
+  }
+
+  .object-label {
+    font-size: 9px !important;
+  }
+}

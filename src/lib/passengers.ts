@@ -4,6 +4,7 @@ import { getCharacterHitbox } from './characterHitboxes';
 export type PassengerId = `passenger-${string}`;
 
 interface PassengerDefinition {
+  id: PassengerId;
   name: LocalizedText;
 }
 
@@ -19,54 +20,29 @@ const images = import.meta.glob<string>(
 );
 
 const definitions: PassengerDefinition[] = [
-  { name: { ru: 'Алиса Орлова', en: 'Alice Orlova' } },
-  { name: { ru: 'Марк Ветров', en: 'Mark Vetrov' } },
-  { name: { ru: 'Нина Соколова', en: 'Nina Sokolova' } },
-  { name: { ru: 'Леон Белов', en: 'Leon Belov' } },
-  { name: { ru: 'Тимур Азимов', en: 'Timur Azimov' } },
-  { name: { ru: 'Вера Лебедева', en: 'Vera Lebedeva' } },
-  { name: { ru: 'Илья Морозов', en: 'Ilya Morozov' } },
-  { name: { ru: 'Майя Волкова', en: 'Maya Volkova' } },
-  { name: { ru: 'Глеб Романов', en: 'Gleb Romanov' } },
-  { name: { ru: 'Лола Миронова', en: 'Lola Mironova' } },
-  { name: { ru: 'Ева Крылова', en: 'Eva Krylova' } },
-  { name: { ru: 'Ян Новак', en: 'Jan Novak' } },
-  { name: { ru: 'Агата Рид', en: 'Agatha Reed' } },
-  { name: { ru: 'Феликс Бергер', en: 'Felix Berger' } },
-  { name: { ru: 'София Ким', en: 'Sofia Kim' } },
-  { name: { ru: 'Макс Власов', en: 'Max Vlasov' } },
-  { name: { ru: 'Роза Марен', en: 'Rosa Maren' } },
-  { name: { ru: 'Оскар Линд', en: 'Oscar Lind' } },
-  { name: { ru: 'Мира Давыдова', en: 'Mira Davydova' } },
-  { name: { ru: 'Тео Ларсен', en: 'Theo Larsen' } },
-  { name: { ru: 'Ида Нур', en: 'Ida Nur' } },
-  { name: { ru: 'Луи Мартен', en: 'Louis Martin' } },
-  { name: { ru: 'Кира Сафина', en: 'Kira Safina' } },
-  { name: { ru: 'Ник Грей', en: 'Nick Gray' } },
-  { name: { ru: 'Эмма Райнер', en: 'Emma Rayner' } },
-  { name: { ru: 'Артур Волин', en: 'Arthur Volin' } },
-  { name: { ru: 'Лея Сандер', en: 'Leia Sander' } },
-  { name: { ru: 'Павел Зорин', en: 'Pavel Zorin' } },
-  { name: { ru: 'Ада Рой', en: 'Ada Roy' } },
-  { name: { ru: 'Бен Картер', en: 'Ben Carter' } },
-  { name: { ru: 'Джейн Кросс', en: 'Jane Cross' } },
-  { name: { ru: 'Рэй Норт', en: 'Ray North' } },
-  { name: { ru: 'Зоя Белл', en: 'Zoe Bell' } },
-  { name: { ru: 'Сэм Уилсон', en: 'Sam Wilson' } },
-  { name: { ru: 'Анна Коваль', en: 'Anna Koval' } },
-  { name: { ru: 'Дэн Миллер', en: 'Dan Miller' } },
-  { name: { ru: 'Клара Стерн', en: 'Clara Stern' } },
-  { name: { ru: 'Лев Грант', en: 'Leo Grant' } },
-  { name: { ru: 'Сара Нойман', en: 'Sarah Neumann' } },
-  { name: { ru: 'Том Браун', en: 'Tom Brown' } },
+  { id: 'passenger-01', name: { ru: 'Винсент Нокс', en: 'Vincent Knox' } },
+  { id: 'passenger-02', name: { ru: 'Вивьен Блэк', en: 'Vivienne Black' } },
+  { id: 'passenger-03', name: { ru: 'Гектор Роу', en: 'Hector Rowe' } },
+  { id: 'passenger-04', name: { ru: 'Арчибальд Кейн', en: 'Archibald Kane' } },
+  { id: 'passenger-05', name: { ru: 'Матео Ривера', en: 'Mateo Rivera' } },
+  { id: 'passenger-06', name: { ru: 'Новый пассажир', en: 'New Passenger' } },
+  { id: 'passenger-07', name: { ru: 'Патрик Бейтман', en: 'Patrick Bateman' } },
+  { id: 'passenger-08', name: { ru: 'Хацунэ Мику', en: 'Hatsune Miku' } },
+  { id: 'passenger-09', name: { ru: 'Виктор Стоун', en: 'Victor Stone' } },
+  { id: 'passenger-10', name: { ru: 'Адриан Вейл', en: 'Adrian Vale' } },
+  { id: 'passenger-11', name: { ru: 'Николас Грей', en: 'Nicholas Gray' } },
+  { id: 'passenger-12', name: { ru: 'Говард Пайк', en: 'Howard Pike' } },
+  { id: 'passenger-13', name: { ru: 'Рэй Морган', en: 'Ray Morgan' } },
+  { id: 'passenger-14', name: { ru: 'Эдгар Уитмор', en: 'Edgar Whitmore' } },
+  { id: 'passenger-15', name: { ru: 'Сайлас Кроу', en: 'Silas Crowe' } },
+  { id: 'passenger-16', name: { ru: 'Оливер Фелл', en: 'Oliver Fell' } },
+  { id: 'passenger-17', name: { ru: 'Бруно Хейл', en: 'Bruno Hale' } },
+  { id: 'passenger-18', name: { ru: 'Леон Харт', en: 'Leon Hart' } },
 ];
 
-function modelId(index: number): PassengerId {
-  return `passenger-${String(index + 1).padStart(2, '0')}`;
-}
-
-export const passengers: Passenger[] = definitions.map((definition, index) => {
-  const id = modelId(index);
+export const passengers: Passenger[] = definitions.map((definition) => {
+  const { id } = definition;
+  const hitboxIndex = Number(id.replace('passenger-', '')) - 1;
   const imagePath = `../assets/characters/${id}.png`;
   const image = images[imagePath];
   if (!image) throw new Error(`Missing character texture: ${imagePath}`);
@@ -75,7 +51,7 @@ export const passengers: Passenger[] = definitions.map((definition, index) => {
     ...definition,
     id,
     image,
-    hitbox: getCharacterHitbox(index),
+    hitbox: getCharacterHitbox(hitboxIndex),
   };
 });
 

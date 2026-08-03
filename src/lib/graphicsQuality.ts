@@ -1,12 +1,16 @@
+import { readStorage, writeStorage } from './safeStorage';
+
 export type GraphicsQuality = 'standard' | '2k';
 
 const STORAGE_KEY = 'game-graphics-quality';
 
 export function readGraphicsQuality(): GraphicsQuality {
-  return localStorage.getItem(STORAGE_KEY) === '2k' ? '2k' : 'standard';
+  return readStorage(STORAGE_KEY) === '2k' ? '2k' : 'standard';
 }
 
 export function applyGraphicsQuality(quality: GraphicsQuality) {
-  document.documentElement.dataset.graphicsQuality = quality;
-  localStorage.setItem(STORAGE_KEY, quality);
+  if (typeof document !== 'undefined') {
+    document.documentElement.dataset.graphicsQuality = quality;
+  }
+  writeStorage(STORAGE_KEY, quality);
 }
