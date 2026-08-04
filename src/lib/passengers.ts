@@ -58,4 +58,8 @@ export const passengers: Passenger[] = definitions.map((definition) => {
   };
 });
 
+export const passengersById = new Map(
+  passengers.map((passenger) => [passenger.id, passenger] as const),
+);
+
 export const passengerTextureUrls = passengers.map(({ image }) => image);

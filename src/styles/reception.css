@@ -1,0 +1,101 @@
+.reception {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #15100b;
+}
+
+.reception__backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: -2%;
+  background: url('../assets/visitor-reception-booth-room.png') center / cover no-repeat;
+  animation: reception-camera-drift 18s ease-in-out infinite alternate;
+}
+
+[data-graphics-quality='2k'] .reception__backdrop {
+  background-image: url('../assets/visitor-reception-booth-room-2k.jpg');
+}
+
+.reception::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 5, 3, .04), transparent 45%, rgba(8, 5, 3, .2)),
+    radial-gradient(ellipse at center, transparent 55%, rgba(5, 3, 2, .3) 120%);
+  content: '';
+  pointer-events: none;
+}
+
+.reception .dialogue-scene {
+  grid-template-columns: minmax(240px, .78fr) minmax(390px, 640px);
+  justify-content: space-between;
+  padding-top: clamp(78px, 10vh, 108px);
+}
+
+.reception .dialogue-scene__portrait {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  width: 100%;
+  justify-content: flex-start;
+  pointer-events: none;
+}
+
+.reception .dialogue-scene__portrait img {
+  max-width: min(100%, 520px);
+  max-height: 76svh;
+  transform-origin: bottom center;
+  animation: reception-visitor-shift-left .72s cubic-bezier(.2, .72, .25, 1);
+}
+
+.reception .dialogue-scene__panel {
+  position: relative;
+  z-index: 1;
+  grid-column: 2;
+}
+
+.reception .dialogue-scene--complete {
+  grid-template-columns: 1fr;
+}
+
+@keyframes reception-camera-drift {
+  from { transform: translate3d(-.2%, 0, 0) scale(1.015); }
+  to { transform: translate3d(.2%, -.25%, 0) scale(1.035); }
+}
+
+@keyframes reception-visitor-shift-left {
+  from { opacity: .78; transform: translate3d(9vw, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (max-width: 760px) {
+  .reception__backdrop { background-position: center; }
+
+  .reception .dialogue-scene {
+    grid-template-columns: 1fr;
+    padding-top: max(70px, calc(env(safe-area-inset-top) + 64px));
+  }
+
+  .reception .dialogue-scene__portrait {
+    grid-column: 1;
+    width: 100%;
+    padding-left: 4vw;
+    box-sizing: border-box;
+    justify-content: flex-start;
+  }
+
+  .reception .dialogue-scene__portrait img {
+    max-width: 62vw;
+    max-height: 34svh;
+    animation-duration: .66s;
+  }
+  .reception .dialogue-scene__panel { grid-column: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reception__backdrop { animation: none; transform: scale(1.02); }
+  .reception .dialogue-scene__portrait img { animation: none; transform: none; }
+}

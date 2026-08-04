@@ -1,4 +1,5 @@
 import { Link } from 'wouter';
+import { GAME_ACHIEVEMENTS } from '../lib/gameAchievements';
 import {
   GALLERY_ITEM_PREFIX,
   GALLERY_LUGGAGE_PREFIX,
@@ -11,32 +12,45 @@ import '../styles/achievements.css';
 
 export function AchievementsPage() {
   const { text } = useLanguage();
-  const { foundClueIds, matchedCaseIds } = useGameProgress();
+  const { achievementIds, foundClueIds, matchedCaseIds } = useGameProgress();
   const foundItems = foundClueIds.filter((id) =>
     id.startsWith(GALLERY_ITEM_PREFIX));
   const openedLuggage = matchedCaseIds.filter((id) =>
     id.startsWith(GALLERY_LUGGAGE_PREFIX));
-  const achievements = [
+  const galleryAchievements = [
     {
+      id: 'first-step',
       title: text.firstStep,
       description: text.firstStepDescription,
       unlocked: openedLuggage.length > 0,
     },
     {
+      id: 'sharp-eye',
       title: text.sharpEye,
       description: text.sharpEyeDescription,
       unlocked: foundItems.length >= 8,
     },
     {
+      id: 'good-memory',
       title: text.goodMemory,
       description: text.goodMemoryDescription,
       unlocked: foundItems.length === householdItems.length,
     },
     {
+      id: 'detective',
       title: text.detective,
       description: text.detectiveDescription,
       unlocked: openedLuggage.length === realSuitcases.length,
     },
+  ];
+  const achievements = [
+    ...galleryAchievements,
+    ...GAME_ACHIEVEMENTS.map((achievement) => ({
+      id: achievement.id,
+      title: text[achievement.titleKey],
+      description: text[achievement.descriptionKey],
+      unlocked: achievementIds.includes(achievement.id),
+    })),
   ];
   const unlockedCount = achievements.filter((achievement) => achievement.unlocked).length;
 
@@ -52,7 +66,7 @@ export function AchievementsPage() {
         {achievements.map((achievement, index) => (
           <article
             className={`achievement${achievement.unlocked ? ' achievement--unlocked' : ''}`}
-            key={achievement.title}
+            key={achievement.id}
           >
             <span className="achievement__icon" aria-hidden="true">{index + 1}</span>
             <div>

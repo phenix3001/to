@@ -1,0 +1,12 @@
+html[data-interface-hidden='true'] .play-menu .game-area-tabs,
+html[data-interface-hidden='true'] .reception .game-area-tabs,
+html[data-interface-hidden='true'] .reception .dialogue-scene__panel,
+html[data-interface-hidden='true'] .reception .dialogue-scene__completion,
+html[data-interface-hidden='true'] .reception .day-transition {
+  display: none;
+  pointer-events: none;
+}
+
+html[data-interface-hidden='true'] .reception .dialogue-scene {
+  pointer-events: none;
+}

@@ -4,7 +4,9 @@ import {
   SuitcaseFaceConfig,
   SuitcaseFaceIndex,
   SuitcaseTone,
+  suitcaseWearLabels,
 } from '../lib/suitcases';
+import '../styles/luggage-wear.css';
 import '../styles/suitcase-model.css';
 
 const faceRotations: Record<SuitcaseFaceIndex, string> = {
@@ -58,6 +60,7 @@ function SuitcaseFace({
       className={`suitcase-model__face suitcase-model__face--${face.name}`}
       data-detail={face.detail}
       data-pattern={face.pattern}
+      data-wear={suitcase.wear}
       style={style}
     >
       <span className="suitcase-model__feature feature-a" />
@@ -88,7 +91,8 @@ export function SuitcaseModel({
       className={`suitcase-model ${className}`.trim()}
       data-trim={suitcase.trim}
       role="img"
-      aria-label={label ?? suitcase.label.ru}
+      aria-label={label
+        ?? `${suitcase.label.ru}, ${suitcaseWearLabels[suitcase.wear].ru}`}
       style={style}
     >
       <div className="suitcase-model__body">

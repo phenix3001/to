@@ -20,6 +20,10 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
     setHintsEnabled,
     mobileLayoutEnabled,
     setMobileLayoutEnabled,
+    showCatalogBeforeGame,
+    setShowCatalogBeforeGame,
+    interfaceHidden,
+    setInterfaceHidden,
   } = useGameSettings();
   const [graphicsQuality, setGraphicsQuality] = useState(readGraphicsQuality);
 
@@ -103,6 +107,30 @@ export function SettingsPanel({ onContinue }: SettingsPanelProps) {
           type="checkbox"
           checked={mobileLayoutEnabled}
           onChange={(event) => setMobileLayoutEnabled(event.target.checked)}
+        />
+      </label>
+
+      <label className="setting-toggle">
+        <span>
+          {text.catalogBeforeGame}
+          <small>{text.catalogBeforeGameDescription}</small>
+        </span>
+        <input
+          type="checkbox"
+          checked={showCatalogBeforeGame}
+          onChange={(event) => setShowCatalogBeforeGame(event.target.checked)}
+        />
+      </label>
+
+      <label className="setting-toggle">
+        <span>
+          {text.hideGameInterface}
+          <small>{text.hideGameInterfaceDescription}</small>
+        </span>
+        <input
+          type="checkbox"
+          checked={interfaceHidden}
+          onChange={(event) => setInterfaceHidden(event.target.checked)}
         />
       </label>
 

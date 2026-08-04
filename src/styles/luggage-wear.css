@@ -1,0 +1,69 @@
+.suitcase-model__face::after,
+.suitcase-thumbnail::after,
+.luggage-stage__visual::after {
+  position: absolute;
+  z-index: 4;
+  inset: 4%;
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
+}
+
+.luggage-stage__visual::after {
+  inset: 18% 24%;
+  border-radius: 18px;
+}
+
+[data-wear='mud']::after {
+  background:
+    radial-gradient(ellipse at 78% 76%, rgb(74 48 25 / 82%) 0 9%, transparent 10%),
+    radial-gradient(ellipse at 67% 83%, rgb(96 62 31 / 72%) 0 7%, transparent 8%),
+    radial-gradient(circle at 88% 61%, rgb(61 42 24 / 66%) 0 5%, transparent 6%),
+    radial-gradient(circle at 58% 72%, rgb(121 82 43 / 45%) 0 4%, transparent 5%);
+  filter: blur(.2px);
+}
+
+[data-wear='scratches']::after {
+  background:
+    linear-gradient(156deg, transparent 32%, rgb(238 222 190 / 75%) 33% 34%, transparent 35%),
+    linear-gradient(166deg, transparent 48%, rgb(28 22 18 / 80%) 49% 50%, transparent 51%),
+    linear-gradient(149deg, transparent 59%, rgb(224 204 168 / 60%) 60% 61%, transparent 62%);
+}
+
+[data-wear='tape']::after {
+  top: 42%;
+  right: -2%;
+  bottom: auto;
+  left: -2%;
+  height: 18%;
+  border-block: 1px dashed rgb(72 55 34 / 70%);
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(90deg, rgb(224 199 143 / 82%) 0 16px, rgb(189 159 102 / 76%) 16px 18px);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 28%);
+  transform: rotate(-5deg);
+}
+
+.luggage-stage__visual[data-wear='tape']::after {
+  top: 46%;
+  right: 24%;
+  left: 24%;
+  height: 9%;
+}
+
+[data-wear='stickers']::after {
+  background:
+    radial-gradient(circle at 25% 30%, #d9c350 0 7%, #4c3c1d 7.5% 9%, transparent 9.5%),
+    radial-gradient(circle at 72% 66%, #86b8bf 0 8%, #243c42 8.5% 10%, transparent 10.5%),
+    linear-gradient(18deg, transparent 38%, #bf6255 39% 50%, #542a25 51% 53%, transparent 54%) 42% 20% / 34% 34% no-repeat;
+  filter: drop-shadow(1px 2px 1px rgb(0 0 0 / 45%));
+}
+
+[data-wear='worn-corners']::after {
+  background:
+    radial-gradient(circle at 0 0, rgb(220 203 173 / 82%) 0 8%, transparent 9%),
+    radial-gradient(circle at 100% 0, rgb(42 32 24 / 78%) 0 8%, transparent 9%),
+    radial-gradient(circle at 0 100%, rgb(45 34 25 / 75%) 0 9%, transparent 10%),
+    radial-gradient(circle at 100% 100%, rgb(215 194 159 / 72%) 0 9%, transparent 10%);
+  box-shadow: inset 0 0 18px rgb(31 23 17 / 48%);
+}

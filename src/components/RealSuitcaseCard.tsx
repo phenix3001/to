@@ -3,6 +3,7 @@ import { useGameProgress } from '../lib/GameProgressContext';
 import { Language } from '../lib/i18n';
 import { getHouseholdItems } from '../lib/luggage/householdItems';
 import { RealSuitcase } from '../lib/realSuitcases';
+import { getSuitcaseWear, suitcaseWearLabels } from '../lib/suitcases';
 import { hasWebGLSupport } from '../lib/webgl';
 import { SuitcaseViewer } from './SuitcaseViewer';
 import '../styles/real-suitcases.css';
@@ -23,6 +24,7 @@ export function RealSuitcaseCard({
     hasWebGLSupport() ? '3d' : '2d');
   const { recordLuggageOpened } = useGameProgress();
   const title = suitcase.title[language];
+  const wear = getSuitcaseWear(number);
   const contentsId = `luggage-contents-${suitcase.id}`;
 
   function openLuggage() {
@@ -39,6 +41,7 @@ export function RealSuitcaseCard({
         <span className="real-suitcase-card__title">
           <b>№{String(number).padStart(2, '0')}</b>
           {title}
+          <small>{suitcaseWearLabels[wear][language]}</small>
         </span>
         <div
           role="group"

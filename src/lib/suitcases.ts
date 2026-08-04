@@ -19,7 +19,10 @@ export type {
   SuitcasePattern,
   SuitcaseTone,
   SuitcaseTrim,
+  SuitcaseWear,
 } from './suitcases/types';
+
+export { getSuitcaseWear, suitcaseWearLabels } from './suitcases/wear';
 
 export const suitcaseCatalog = [
   ...suitcases01to10,

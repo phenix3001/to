@@ -4,6 +4,7 @@ import { GamePage } from './pages/GamePage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PlayMenuPage } from './pages/PlayMenuPage';
+import { ReceptionPage } from './pages/ReceptionPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
       <Route path="/" component={HomePage} />
       <Route path="/game" component={GamePage} />
       <Route path="/play" component={PlayMenuPage} />
+      <Route path="/reception" component={ReceptionPage} />
       <Route path="/achievements" component={AchievementsPage} />
       <Route path="/settings" component={SettingsPage} />
       <Route component={NotFoundPage} />

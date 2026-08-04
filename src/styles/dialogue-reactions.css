@@ -1,0 +1,117 @@
+.dialogue-scene__conversation {
+  position: relative;
+}
+
+.dialogue-scene__reaction {
+  display: block;
+  margin-top: 12px;
+  padding: 9px 11px;
+  border-left: 3px solid #bb8a55;
+  border-radius: 0 8px 8px 0;
+  background: rgba(185, 133, 78, .12);
+  color: #f3dfc5;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.dialogue-scene__reaction--tap {
+  border-left-color: #c69a68;
+  animation: dialogue-reaction-tap .22s ease-out;
+}
+
+.dialogue-scene__reaction--joke {
+  border-left-color: #d1ac6e;
+  background: rgba(197, 155, 87, .14);
+  color: #fff0cf;
+  animation: dialogue-reaction-joke .28s ease-out;
+}
+
+.dialogue-scene__reaction--tense {
+  border-left-color: #ad7048;
+  background: rgba(128, 75, 45, .2);
+  animation: dialogue-reaction-tense .34s ease-out;
+}
+
+.dialogue-scene__reaction--slam {
+  border-left-color: #c07843;
+  background: rgba(139, 76, 39, .22);
+  animation: dialogue-reaction-slam .2s ease-out;
+}
+
+.dialogue-scene__reaction--nervous {
+  border-left-color: #9d927e;
+  background: rgba(116, 107, 91, .2);
+  color: #eee7dc;
+  animation: dialogue-reaction-nervous .3s ease-out;
+}
+
+.dialogue-scene__reaction--hit {
+  border-left-color: #a34f38;
+  background: rgba(129, 55, 37, .24);
+  color: #ffe1d5;
+}
+
+.dialogue-scene__conversation--hit {
+  animation: dialogue-reaction-hit .22s ease-out;
+}
+
+.dialogue-scene__conversation--hit::after {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  background: rgba(116, 43, 28, .18);
+  pointer-events: none;
+  content: '';
+  animation: dialogue-reaction-hit-flash .28s ease-out both;
+}
+
+@keyframes dialogue-reaction-tap {
+  40% { transform: translateY(2px); }
+}
+
+@keyframes dialogue-reaction-joke {
+  45% { transform: translateY(-2px) rotate(-.2deg); }
+}
+
+@keyframes dialogue-reaction-tense {
+  50% { filter: brightness(1.12); }
+}
+
+@keyframes dialogue-reaction-slam {
+  35% { transform: translateY(4px); }
+  70% { transform: translateY(-1px); }
+}
+
+@keyframes dialogue-reaction-nervous {
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-1px); }
+}
+
+@keyframes dialogue-reaction-hit {
+  20% { transform: translate(-4px, 1px); }
+  45% { transform: translate(3px, -1px); }
+  70% { transform: translate(-2px, 0); }
+}
+
+@keyframes dialogue-reaction-hit-flash {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogue-scene__reaction--tap,
+  .dialogue-scene__reaction--joke,
+  .dialogue-scene__reaction--tense,
+  .dialogue-scene__reaction--slam,
+  .dialogue-scene__reaction--nervous,
+  .dialogue-scene__conversation--hit {
+    animation: none;
+    transform: none;
+  }
+
+  .dialogue-scene__conversation--hit::after {
+    display: none;
+    animation: none;
+  }
+}

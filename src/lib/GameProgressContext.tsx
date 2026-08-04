@@ -2,6 +2,7 @@ import {
   createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState,
 } from 'react';
 import { useAuth } from './auth';
+import { GameAchievementId } from './gameAchievements';
 import {
   clearGuestProgress,
   galleryItemKey,
@@ -19,6 +20,7 @@ export type SyncStatus = 'local' | 'syncing' | 'synced' | 'error';
 interface GameProgressContextValue extends GameProgress {
   recordLuggageOpened: (luggageId: string, itemIds: readonly string[]) => void;
   syncStatus: SyncStatus;
+  unlockAchievement: (achievementId: GameAchievementId) => void;
 }
 
 const GameProgressContext = createContext<GameProgressContextValue | null>(null);
@@ -68,7 +70,7 @@ export function GameProgressProvider({ children }: { children: ReactNode }) {
     const previousOwner = ownerRef.current;
     const inMemoryProgress = previousOwner === null || previousOwner === userId
       ? progressRef.current
-      : { foundClueIds: [], matchedCaseIds: [] };
+      : { achievementIds: [], foundClueIds: [], matchedCaseIds: [] };
     ownerRef.current = userId;
 
     if (!userId) {
@@ -84,7 +86,7 @@ export function GameProgressProvider({ children }: { children: ReactNode }) {
     void loadCloudProgress(userId).then(async (cloudProgress) => {
       if (isCancelled) return;
       const next = mergeProgress(
-        cloudProgress ?? { foundClueIds: [], matchedCaseIds: [] },
+        cloudProgress ?? { achievementIds: [], foundClueIds: [], matchedCaseIds: [] },
         readLocalProgress(userId),
         readLocalProgress(null),
         inMemoryProgress,
@@ -117,6 +119,7 @@ export function GameProgressProvider({ children }: { children: ReactNode }) {
     itemIds: readonly string[],
   ) => {
     const next = mergeProgress(progressRef.current, {
+      achievementIds: [],
       foundClueIds: itemIds.map(galleryItemKey),
       matchedCaseIds: [galleryLuggageKey(luggageId)],
     });
@@ -127,11 +130,22 @@ export function GameProgressProvider({ children }: { children: ReactNode }) {
     applyProgress(next);
   }, [applyProgress]);
 
+  const unlockAchievement = useCallback((achievementId: GameAchievementId) => {
+    if (progressRef.current.achievementIds.includes(achievementId)) return;
+    const next = mergeProgress(progressRef.current, {
+      achievementIds: [achievementId],
+      foundClueIds: [],
+      matchedCaseIds: [],
+    });
+    applyProgress(next);
+  }, [applyProgress]);
+
   return (
     <GameProgressContext.Provider value={{
       ...progress,
       recordLuggageOpened,
       syncStatus,
+      unlockAchievement,
     }}>
       {children}
     </GameProgressContext.Provider>

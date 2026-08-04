@@ -7,6 +7,7 @@ import { GameSettingsProvider } from './lib/GameSettingsContext.tsx';
 import { LanguageProvider } from './lib/i18n.tsx';
 import { applyGraphicsQuality, readGraphicsQuality } from './lib/graphicsQuality.ts';
 import './index.css';
+import './styles/interface-hidden.css';
 import './styles/mobile.css';
 
 applyGraphicsQuality(readGraphicsQuality());

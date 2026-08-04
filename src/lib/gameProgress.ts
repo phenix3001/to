@@ -1,4 +1,5 @@
 import { dailyCaseKey, dailyClueKey } from './dailyProgress';
+import { GameAchievementId, isGameAchievementId } from './gameAchievements';
 import { gameDayNumbers, GameDayNumber } from './gameDays';
 import { clues } from './investigation';
 import { CaseId } from './investigationTypes';
@@ -8,11 +9,13 @@ import { readStorage, removeStorage, writeStorage } from './safeStorage';
 import { supabase } from './supabase';
 
 export interface GameProgress {
+  achievementIds: GameAchievementId[];
   foundClueIds: string[];
   matchedCaseIds: string[];
 }
 
 export const EMPTY_PROGRESS: GameProgress = {
+  achievementIds: [],
   foundClueIds: [],
   matchedCaseIds: [],
 };
@@ -40,7 +43,7 @@ function normalizeClueKey(value: string) {
     return householdItems.some((item) => item.id === itemId) ? value : null;
   }
   if (clues.some((clue) => clue.id === value)) return dailyClueKey(1, value);
-  const match = /^day-([1-7]):clue:(.+)$/.exec(value);
+  const match = /^day-(\d+):clue:(.+)$/.exec(value);
   if (!match || !validDay(match[1])) return null;
   return clues.some((clue) => clue.id === match[2]) ? value : null;
 }
@@ -54,7 +57,7 @@ function normalizeCaseKey(value: string) {
   }
   const caseIds: readonly CaseId[] = ['elderly', 'punk', 'business'];
   if (caseIds.includes(value as CaseId)) return dailyCaseKey(1, value as CaseId);
-  const match = /^day-([1-7]):case:(.+)$/.exec(value);
+  const match = /^day-(\d+):case:(.+)$/.exec(value);
   if (!match || !validDay(match[1])) return null;
   return caseIds.includes(match[2] as CaseId) ? value : null;
 }
@@ -72,6 +75,8 @@ export function normalizeProgress(value: unknown): GameProgress {
     ? value as Record<string, unknown>
     : {};
   return {
+    achievementIds: [...new Set(validStrings(record.achievementIds)
+      .filter(isGameAchievementId))],
     foundClueIds: [...new Set(validStrings(record.foundClueIds)
       .map(normalizeClueKey)
       .filter((id): id is string => id !== null))],
@@ -83,6 +88,7 @@ export function normalizeProgress(value: unknown): GameProgress {
 
 export function mergeProgress(...items: GameProgress[]): GameProgress {
   return normalizeProgress({
+    achievementIds: items.flatMap((item) => item.achievementIds),
     foundClueIds: items.flatMap((item) => item.foundClueIds),
     matchedCaseIds: items.flatMap((item) => item.matchedCaseIds),
   });
@@ -95,6 +101,7 @@ export function readLocalProgress(userId: string | null): GameProgress {
     if (stored) return normalizeProgress(JSON.parse(stored));
     if (userId) return EMPTY_PROGRESS;
     return normalizeProgress({
+      achievementIds: [],
       foundClueIds: JSON.parse(readStorage(LEGACY_CLUES_KEY) ?? '[]'),
       matchedCaseIds: JSON.parse(readStorage(LEGACY_MATCHES_KEY) ?? '[]'),
     });
@@ -117,7 +124,7 @@ export function clearGuestProgress() {
 export async function loadCloudProgress(userId: string) {
   const { data, error } = await supabase
     .from('game_progress')
-    .select('found_clue_ids, matched_case_ids')
+    .select('achievement_ids, found_clue_ids, matched_case_ids')
     .eq('user_id', userId)
     .eq('level_id', LEVEL_ID)
     .maybeSingle();
@@ -125,6 +132,7 @@ export async function loadCloudProgress(userId: string) {
   if (error) throw error;
   if (!data) return null;
   return normalizeProgress({
+    achievementIds: data.achievement_ids,
     foundClueIds: data.found_clue_ids,
     matchedCaseIds: data.matched_case_ids,
   });
@@ -134,6 +142,7 @@ export async function saveCloudProgress(userId: string, progress: GameProgress) 
   const { error } = await supabase.from('game_progress').upsert({
     user_id: userId,
     level_id: LEVEL_ID,
+    achievement_ids: progress.achievementIds,
     found_clue_ids: progress.foundClueIds,
     matched_case_ids: progress.matchedCaseIds,
     updated_at: new Date().toISOString(),

@@ -1,4 +1,4 @@
-import { gameDayNumbers, GameDayNumber } from './gameDays';
+import { gameDayNumbers, GameDayNumber, lastGameDay } from './gameDays';
 import { CaseId } from './investigationTypes';
 
 const caseIds: readonly CaseId[] = ['elderly', 'punk', 'business'];
@@ -31,5 +31,5 @@ export function isDayComplete(keys: string[], day: GameDayNumber) {
 }
 
 export function firstIncompleteDay(keys: string[]): GameDayNumber {
-  return gameDayNumbers.find((day) => !isDayComplete(keys, day)) ?? 7;
+  return gameDayNumbers.find((day) => !isDayComplete(keys, day)) ?? lastGameDay;
 }

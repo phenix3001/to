@@ -4,8 +4,10 @@ import {
 import { Language } from '../lib/i18n';
 import { usePrefersReducedMotion } from '../lib/reducedMotion';
 import { RealSuitcase } from '../lib/realSuitcases';
+import { getSuitcaseWear } from '../lib/suitcases';
 import { hasWebGLSupport } from '../lib/webgl';
 import { LuggageContents } from './LuggageContents';
+import '../styles/luggage-wear.css';
 import '../styles/luggage-opening.css';
 import '../styles/luggage-split.css';
 
@@ -167,7 +169,10 @@ export function SuitcaseViewer({
       onKeyDown={handleArrowKey}
       onPointerDown={() => stageRef.current?.focus()}
     >
-      <div className="luggage-stage__visual">
+      <div
+        className="luggage-stage__visual"
+        data-wear={getSuitcaseWear(number)}
+      >
         {showModel ? (
           <model-viewer
             ref={modelRef}

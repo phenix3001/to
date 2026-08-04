@@ -10,8 +10,12 @@
   position: absolute;
   z-index: 0;
   inset: -3%;
-  background: url('../assets/game-room-menu-first-floor-lamps.png') center / cover no-repeat;
+  background: url('../assets/game-room-menu-warehouse-small-desk-chair.png') center / cover no-repeat;
   animation: warehouse-camera-drift 22s ease-in-out infinite alternate;
+}
+
+[data-graphics-quality='2k'] .play-menu__backdrop {
+  background-image: url('../assets/game-room-menu-warehouse-small-desk-chair-2k.jpg');
 }
 
 .play-menu::after {

@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
-import { SuitcaseConfig } from '../lib/suitcases';
+import { SuitcaseConfig, suitcaseWearLabels } from '../lib/suitcases';
+import '../styles/luggage-wear.css';
 import '../styles/suitcase-model.css';
 
 interface ThumbnailStyle extends CSSProperties {
@@ -40,8 +41,10 @@ export function SuitcaseThumbnail({
       data-detail={front.detail}
       data-pattern={front.pattern}
       data-trim={suitcase.trim}
+      data-wear={suitcase.wear}
       role="img"
-      aria-label={label ?? suitcase.label.ru}
+      aria-label={label
+        ?? `${suitcase.label.ru}, ${suitcaseWearLabels[suitcase.wear].ru}`}
       style={style}
     >
       <span className="suitcase-model__feature feature-a" />

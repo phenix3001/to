@@ -51,6 +51,12 @@ export type SuitcaseDetail =
 
 export type SuitcaseTrim = 'rounded' | 'square' | 'reinforced';
 export type SuitcaseTone = 'shell' | 'shade' | 'accent';
+export type SuitcaseWear =
+  | 'mud'
+  | 'scratches'
+  | 'tape'
+  | 'stickers'
+  | 'worn-corners';
 
 export interface SuitcaseFaceConfig {
   name: SuitcaseFaceName;
@@ -81,5 +87,6 @@ export interface SuitcaseConfig {
     hardware: string;
   };
   trim: SuitcaseTrim;
+  wear: SuitcaseWear;
   faces: SuitcaseFaces;
 }

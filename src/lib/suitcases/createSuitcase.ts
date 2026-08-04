@@ -6,6 +6,7 @@ import {
   SuitcasePattern,
   SuitcaseTrim,
 } from './types';
+import { getSuitcaseWear } from './wear';
 
 type DetailVariant = 0 | 1 | 2 | 3 | 4;
 export type SuitcasePalette =
@@ -103,6 +104,7 @@ export function createSuitcase(
     dimensions: varyDimensions(dimensions, passengerNumber),
     colors: createColors(palette, passengerNumber),
     trim,
+    wear: getSuitcaseWear(passengerNumber),
     faces,
   };
 }
