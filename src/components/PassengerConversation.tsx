@@ -3,8 +3,10 @@ import { resolveDialogueTurn } from '../lib/dialogues/flow';
 import { PassengerDialogue } from '../lib/dialogues/types';
 import { Language } from '../lib/i18n';
 import { isNightmarePassenger } from '../lib/dialogues/temperament';
+import { getDialogueCharactersPerSecond } from '../lib/dialogueTyping';
 import { useGameProgress } from '../lib/GameProgressContext';
 import { LuggageHandoff } from './LuggageHandoff';
+import { TypewriterText } from './TypewriterText';
 import '../styles/dialogue-actions.css';
 import '../styles/dialogue-reactions.css';
 
@@ -18,6 +20,8 @@ interface PassengerConversationProps {
   language: Language;
   nextLabel: string;
   encounterNumber?: number;
+  path: readonly string[];
+  onChoose: (choiceId: string) => void;
   onComplete: () => void;
 }
 
@@ -26,13 +30,26 @@ export function PassengerConversation({
   language,
   nextLabel,
   encounterNumber = 1,
+  path,
+  onChoose,
   onComplete,
 }: PassengerConversationProps) {
-  const [path, setPath] = useState<string[]>([]);
   const { unlockAchievement } = useGameProgress();
   const speechRef = useRef<HTMLParagraphElement>(null);
   const firstChoiceRef = useRef<HTMLButtonElement>(null);
+  const [completedSpeechKey, setCompletedSpeechKey] = useState<string | null>(null);
   const turn = resolveDialogueTurn(dialogue, path, encounterNumber);
+  const speechKey = [
+    dialogue.passengerId,
+    encounterNumber,
+    language,
+    path.join('-') || 'opening',
+  ].join(':');
+  const isSpeechComplete = completedSpeechKey === speechKey;
+  const charactersPerSecond = getDialogueCharactersPerSecond(
+    dialogue.passengerId,
+    encounterNumber,
+  );
   const copy = uiText[language];
   const reactionEffect = turn.reaction?.effect;
   const reactionClass = turn.reaction
@@ -43,9 +60,9 @@ export function PassengerConversation({
     : '';
 
   useEffect(() => {
-    if (path.length === 0) speechRef.current?.focus();
+    if (!isSpeechComplete) speechRef.current?.focus();
     else if (!turn.isComplete) firstChoiceRef.current?.focus();
-  }, [path, turn.isComplete]);
+  }, [isSpeechComplete, speechKey, turn.isComplete]);
 
   useEffect(() => {
     if (reactionEffect === 'hit') unlockAchievement('provoked-hit');
@@ -67,7 +84,12 @@ export function PassengerConversation({
         {turn.action && (
           <span className="dialogue-scene__action">{turn.action[language]}</span>
         )}
-        {turn.speech[language]}
+        <TypewriterText
+          key={speechKey}
+          text={turn.speech[language]}
+          charactersPerSecond={charactersPerSecond}
+          onComplete={() => setCompletedSpeechKey(speechKey)}
+        />
         {turn.reaction && (
           <span
             className={`dialogue-scene__reaction dialogue-scene__reaction--${turn.reaction.effect}`}
@@ -76,7 +98,7 @@ export function PassengerConversation({
           </span>
         )}
       </p>
-      {!turn.isComplete && (
+      {!turn.isComplete && isSpeechComplete && (
         <div
           key={path.join('-') || 'opening'}
           className="dialogue-scene__choices"
@@ -88,18 +110,19 @@ export function PassengerConversation({
               key={choice.id}
               ref={index === 0 ? firstChoiceRef : undefined}
               type="button"
+              disabled={!isSpeechComplete}
               onClick={(event) => {
+                if (!isSpeechComplete) return;
                 event.currentTarget.disabled = true;
-                setPath((currentPath) => [...currentPath, choice.id]);
+                onChoose(choice.id);
               }}
             >
-              <b aria-hidden="true">{index + 1}</b>
               <span>{choice.text[language]}</span>
             </button>
           ))}
         </div>
       )}
-      {turn.isComplete && (
+      {turn.isComplete && isSpeechComplete && (
         <LuggageHandoff
           passengerId={dialogue.passengerId}
           encounterNumber={encounterNumber}

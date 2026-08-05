@@ -1,46 +1,57 @@
 .game-area-tabs {
   position: fixed;
   z-index: 12;
-  top: max(14px, env(safe-area-inset-top));
+  top: max(0px, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
 }
 
 .game-area-tabs__link {
   display: grid;
-  width: 54px;
-  height: 54px;
+  width: 70px;
+  height: 70px;
   place-items: center;
-  box-sizing: border-box;
-  border: 1px solid rgba(226, 192, 142, .52);
-  border-radius: 50%;
-  background: rgba(28, 19, 13, .9);
-  box-shadow: 0 12px 34px rgba(0, 0, 0, .46);
-  color: #fff3df;
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(142, 142, 142, .72);
   text-decoration: none;
-  backdrop-filter: blur(9px);
-  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+  filter: drop-shadow(0 6px 7px rgba(0, 0, 0, .65));
+  transition: color .18s ease, filter .18s ease, transform .18s ease;
 }
 
-.game-area-tabs__link span { transform: translateY(-2px); }
-.game-area-tabs--down .game-area-tabs__link span { transform: translateY(2px); }
+.game-area-tabs__icon {
+  width: 66px;
+  height: 66px;
+  fill: currentColor;
+  stroke: none;
+  shape-rendering: geometricPrecision;
+  overflow: visible;
+}
+
+.game-area-tabs--up .game-area-tabs__icon { transform: scale(2.3, .45) rotate(-90deg); }
+.game-area-tabs--down .game-area-tabs__icon { transform: scale(2.3, .45) rotate(90deg); }
 .game-area-tabs--up .game-area-tabs__link:hover { transform: translateY(-3px); }
 .game-area-tabs--down .game-area-tabs__link:hover { transform: translateY(3px); }
-.game-area-tabs__link:hover { border-color: #e2c08e; background: rgba(134, 89, 48, .92); }
+.game-area-tabs__link:hover {
+  color: rgba(182, 182, 182, .9);
+  filter: drop-shadow(0 7px 9px rgba(0, 0, 0, .72));
+}
 .game-area-tabs__link:focus-visible { outline: 3px solid #e2c08e; outline-offset: 2px; }
 
 @media (max-width: 520px) {
   .game-area-tabs {
-    top: max(8px, env(safe-area-inset-top));
+    top: max(0px, env(safe-area-inset-top));
   }
 
   .game-area-tabs__link {
-    width: 48px;
-    height: 48px;
-    font-size: 1.75rem;
+    width: 60px;
+    height: 60px;
+  }
+
+  .game-area-tabs__icon {
+    width: 56px;
+    height: 56px;
   }
 }
 

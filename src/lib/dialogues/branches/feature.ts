@@ -21,10 +21,10 @@ export const featureBranch = {
     {
       id: 'feature-accuse',
       annoyance: 1,
-      text: { ru: 'Перебить: «Вы точно не описываете чужой багаж?»', en: 'Interrupt: “Are you sure you are not describing someone else’s luggage?”' },
+      text: { ru: 'Сверим описание ещё раз, чтобы не взять чужой багаж?', en: 'Shall we check the description once more to avoid taking the wrong luggage?' },
       response: {
-        ru: '«Не перебивайте. Я прекрасно помню собственный багаж: {detail}»',
-        en: '“Do not interrupt me. I know my own luggage perfectly well: {detail}”',
+        ru: '«Сверим, но я хорошо помню свой багаж: {detail}»',
+        en: '“We can check, but I remember my luggage clearly: {detail}”',
       },
     },
   ],

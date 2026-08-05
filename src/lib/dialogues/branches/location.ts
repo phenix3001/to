@@ -21,10 +21,10 @@ export const locationBranch = {
     {
       id: 'location-invented',
       annoyance: 1,
-      text: { ru: 'Перебить: «Вы не придумали это место?»', en: 'Interrupt: “Did you invent that location?”' },
+      text: { ru: 'Уточнить: «Вы уверены, что оставили багаж именно там?»', en: 'Clarify: “Are you sure that is where you left the luggage?”' },
       response: {
-        ru: '«Не перебивайте. Я уже ясно сказал, где всё произошло: {detail}»',
-        en: '“Do not interrupt me. I already told you exactly where it happened: {detail}”',
+        ru: '«Уверен. Я хорошо запомнил это место: {detail}»',
+        en: '“I am sure. I remember that location clearly: {detail}”',
       },
     },
   ],

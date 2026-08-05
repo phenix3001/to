@@ -8,7 +8,7 @@ export function MagnifyingGlassButton() {
 
   return (
     <Link
-      href={showCatalogBeforeGame ? '/game' : '/play'}
+      href={showCatalogBeforeGame ? '/game' : '/reception'}
       className="magnifier"
       aria-label={text.play}
     >

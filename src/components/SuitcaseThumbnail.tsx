@@ -1,5 +1,6 @@
-import { CSSProperties } from 'react';
-import { SuitcaseConfig, suitcaseWearLabels } from '../lib/suitcases';
+import type { CSSProperties } from 'react';
+import { suitcaseWearLabels } from '../lib/suitcases';
+import type { SuitcaseConfig } from '../lib/suitcases';
 import '../styles/luggage-wear.css';
 import '../styles/suitcase-model.css';
 
@@ -24,6 +25,8 @@ export function SuitcaseThumbnail({
   className = '',
   label,
 }: SuitcaseThumbnailProps) {
+  const accessibleLabel = label
+    ?? `${suitcase.label.ru}, ${suitcaseWearLabels[suitcase.wear].ru}`;
   const front = suitcase.faces[0];
   const ratio = suitcase.dimensions.width / suitcase.dimensions.height;
   const style: ThumbnailStyle = {
@@ -43,8 +46,7 @@ export function SuitcaseThumbnail({
       data-trim={suitcase.trim}
       data-wear={suitcase.wear}
       role="img"
-      aria-label={label
-        ?? `${suitcase.label.ru}, ${suitcaseWearLabels[suitcase.wear].ru}`}
+      aria-label={accessibleLabel}
       style={style}
     >
       <span className="suitcase-model__feature feature-a" />

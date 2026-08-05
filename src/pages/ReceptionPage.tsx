@@ -1,5 +1,5 @@
-import { DialogueScene } from '../components/DialogueScene';
 import { GameAreaTabs } from '../components/GameAreaTabs';
+import { ReceptionEncounter } from '../components/ReceptionEncounter';
 import { useLanguage } from '../lib/i18n';
 import '../styles/reception.css';
 
@@ -13,7 +13,7 @@ export function ReceptionPage() {
     >
       <div className="reception__backdrop" aria-hidden="true" />
       <GameAreaTabs activeArea="reception" />
-      <DialogueScene />
+      <ReceptionEncounter />
     </main>
   );
 }

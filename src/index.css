@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'Runtti SP';
-  src: url('/Runtti%20SP%20Cyrillic/RunttiSP-Bold.otf') format('opentype');
+  font-family: 'Zeequada';
+  src: url('/Zeequada/Zeequada-Regular.otf') format('opentype');
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-display: swap;
 }
 
 :root {
-  --game-font: 'Runtti SP', Inter, system-ui, sans-serif;
+  --game-font: 'Zeequada', Inter, system-ui, sans-serif;
   font-family: var(--game-font);
   color: #f8fafc;
   background: #080604;

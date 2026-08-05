@@ -6,6 +6,7 @@ export type ArrivalSchedule = readonly (readonly PassengerId[])[];
 const recurringPassengerId: PassengerId = 'passenger-19';
 const recurringDayIndexes = new Set([0, 2, 4]);
 const dailyArrivalCounts = [4, 4, 5, 4, 5] as const;
+const firstDayRecurringPositions = [2, 3] as const;
 
 function shufflePassengerIds(
   passengerIds: readonly PassengerId[],
@@ -36,6 +37,14 @@ export function createRandomArrivalSchedule(
     const regularCount = arrivalCount - (hasRecurringVisit ? 1 : 0);
     const arrivals = shuffled.slice(offset, offset + regularCount);
     offset += regularCount;
+
+    if (hasRecurringVisit && dayIndex === 0) {
+      const positionIndex = Math.floor(random() * firstDayRecurringPositions.length);
+      const recurringPosition = firstDayRecurringPositions[positionIndex] ?? 2;
+      arrivals.splice(recurringPosition, 0, recurringPassengerId);
+      return arrivals;
+    }
+
     if (hasRecurringVisit) arrivals.push(recurringPassengerId);
     return shufflePassengerIds(arrivals, random);
   });

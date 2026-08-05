@@ -1,5 +1,7 @@
 html[data-interface-hidden='true'] .play-menu .game-area-tabs,
 html[data-interface-hidden='true'] .reception .game-area-tabs,
+html[data-interface-hidden='true'] .play-menu .dialogue-scene__panel,
+html[data-interface-hidden='true'] .play-menu .dialogue-scene__completion,
 html[data-interface-hidden='true'] .reception .dialogue-scene__panel,
 html[data-interface-hidden='true'] .reception .dialogue-scene__completion,
 html[data-interface-hidden='true'] .reception .day-transition {
@@ -7,6 +9,7 @@ html[data-interface-hidden='true'] .reception .day-transition {
   pointer-events: none;
 }
 
+html[data-interface-hidden='true'] .play-menu .dialogue-scene,
 html[data-interface-hidden='true'] .reception .dialogue-scene {
   pointer-events: none;
 }

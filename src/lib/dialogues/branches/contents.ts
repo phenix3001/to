@@ -21,10 +21,10 @@ export const contentsBranch = {
     {
       id: 'contents-hiding',
       annoyance: 1,
-      text: { ru: 'Перебить: «Вы что-то скрываете о содержимом?»', en: 'Interrupt: “Are you hiding something about the contents?”' },
+      text: { ru: 'Можете описать содержимое точнее?', en: 'Can you describe the contents more precisely?' },
       response: {
-        ru: '«Дайте договорить. Я сообщил всё, что нужно для поиска: {detail}»',
-        en: '“Let me finish. I told you everything needed for the search: {detail}”',
+        ru: '«Я уже назвал достаточно для поиска: {detail}»',
+        en: '“I already gave you enough to search for it: {detail}”',
       },
     },
   ],

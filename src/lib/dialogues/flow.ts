@@ -1,14 +1,13 @@
 import { LocalizedText } from '../investigationTypes';
 import { getDialogueAction } from './actions';
-import { contentsBranch } from './branches/contents';
-import { featureBranch } from './branches/feature';
-import { locationBranch } from './branches/location';
 import { appendDialogueBeat, insertDialogueDetail } from './localize';
+import {
+  findMixedDialogueChoice,
+  getMixedDialogueChoices,
+} from './mixedChoices';
 import { ResolvedDialogueReaction, resolveDialogueReaction } from './reaction';
 import { getSmallTalkChoices, getSmallTalkResponse } from './smallTalk';
 import {
-  DialogueBranch,
-  DialogueBranchChoice,
   DialogueTopic,
   PassengerDialogue,
   dialogueTopics,
@@ -31,27 +30,18 @@ export interface ResolvedDialogueTurn {
   isComplete: boolean;
 }
 
-const branches: Record<DialogueTopic, DialogueBranch> = {
-  feature: featureBranch,
-  contents: contentsBranch,
-  location: locationBranch,
-};
-
 function isDialogueTopic(value: string): value is DialogueTopic {
   return dialogueTopics.some((topic) => topic === value);
 }
 
-function findBranchChoice(
-  choices: readonly DialogueBranchChoice[],
-  choiceId: string,
-) {
-  const choice = choices.find(({ id }) => id === choiceId);
-  if (!choice) throw new Error(`Missing dialogue choice: ${choiceId}`);
+function findTopicChoice(dialogue: PassengerDialogue, topic: DialogueTopic) {
+  const choice = dialogue.choices.find(({ id }) => id === topic);
+  if (!choice) throw new Error(`Missing topic for ${dialogue.passengerId}: ${topic}`);
   return choice;
 }
 
-function makeChoices(choices: readonly DialogueBranchChoice[]) {
-  return choices.map(({ id, text }) => ({ id, text }));
+function makeChoices(choices: ReturnType<typeof getMixedDialogueChoices>) {
+  return choices.map(({ choice: { id, text } }) => ({ id, text }));
 }
 
 export function resolveDialogueTurn(
@@ -72,50 +62,50 @@ export function resolveDialogueTurn(
 
   const topicId = path[0];
   if (!isDialogueTopic(topicId)) throw new Error(`Unknown dialogue topic: ${topicId}`);
-  const topicChoice = dialogue.choices.find(({ id }) => id === topicId);
-  if (!topicChoice) throw new Error(`Missing topic for ${dialogue.passengerId}: ${topicId}`);
-  const branch = branches[topicId];
+  const topicChoice = findTopicChoice(dialogue, topicId);
 
   if (path.length === 1) {
     return {
       step: 2,
       action: getDialogueAction(dialogue.passengerId, path.length, encounterNumber),
       speech: getSmallTalkResponse(dialogue.passengerId, topicId, topicChoice.response),
-      choices: makeChoices(branch.clarify),
+      choices: makeChoices(getMixedDialogueChoices(topicId, 'clarify')),
       reaction: null,
       isComplete: false,
     };
   }
 
-  const clarification = findBranchChoice(branch.clarify, path[1]);
+  const clarification = findMixedDialogueChoice(topicId, 'clarify', path[1]);
   if (path.length === 2) {
+    const detail = findTopicChoice(dialogue, clarification.topic).response;
     return {
       step: 3,
       action: getDialogueAction(dialogue.passengerId, path.length, encounterNumber),
       speech: appendDialogueBeat(
-        insertDialogueDetail(clarification.response, topicChoice.response),
+        insertDialogueDetail(clarification.choice.response, detail),
         dialogue.storyBeats[0],
       ),
-      choices: makeChoices(branch.search),
-      reaction: resolveDialogueReaction(dialogue, topicChoice.response, [clarification]),
+      choices: makeChoices(getMixedDialogueChoices(topicId, 'search')),
+      reaction: resolveDialogueReaction(dialogue, detail, [clarification.choice]),
       isComplete: false,
     };
   }
 
-  const searchChoice = findBranchChoice(branch.search, path[2]);
+  const searchChoice = findMixedDialogueChoice(topicId, 'search', path[2]);
   if (path.length === 3) {
+    const detail = findTopicChoice(dialogue, searchChoice.topic).response;
     return {
       step: 4,
       action: getDialogueAction(dialogue.passengerId, path.length, encounterNumber),
       speech: appendDialogueBeat(
-        insertDialogueDetail(searchChoice.response, topicChoice.response),
+        insertDialogueDetail(searchChoice.choice.response, detail),
         dialogue.storyBeats[1],
       ),
-      choices: makeChoices(branch.result),
+      choices: makeChoices(getMixedDialogueChoices(topicId, 'result')),
       reaction: resolveDialogueReaction(
         dialogue,
-        topicChoice.response,
-        [clarification, searchChoice],
+        detail,
+        [clarification.choice, searchChoice.choice],
       ),
       isComplete: false,
     };
@@ -124,19 +114,20 @@ export function resolveDialogueTurn(
   if (path.length !== DIALOGUE_STEP_COUNT) {
     throw new Error(`A dialogue can only have ${DIALOGUE_STEP_COUNT} steps.`);
   }
-  const resultChoice = findBranchChoice(branch.result, path[3]);
+  const resultChoice = findMixedDialogueChoice(topicId, 'result', path[3]);
+  const detail = findTopicChoice(dialogue, resultChoice.topic).response;
   return {
     step: 4,
     action: getDialogueAction(dialogue.passengerId, path.length, encounterNumber),
     speech: appendDialogueBeat(
-      insertDialogueDetail(resultChoice.response, topicChoice.response),
+      insertDialogueDetail(resultChoice.choice.response, detail),
       dialogue.storyBeats[2],
     ),
     choices: [],
     reaction: resolveDialogueReaction(
       dialogue,
-      topicChoice.response,
-      [clarification, searchChoice, resultChoice],
+      detail,
+      [clarification.choice, searchChoice.choice, resultChoice.choice],
     ),
     isComplete: true,
   };

@@ -49,12 +49,12 @@ export const dayFiveStoryBeats = {
       en: 'Circles the empty room beside you and names every crack in its walls without error. Your flashlight reveals a thin seam; only your footprints mark the dust before it.',
     },
     {
-      ru: 'В штукатурке проступают три прямоугольные тени. В каждой ты видишь себя у закрытой двери, но гнилой цветок отражается только в средней.',
-      en: 'Three rectangular shadows surface in the plaster. Each shows you by the closed door, but only the middle one reflects the rotten flower.',
+      ru: 'В штукатурке проступают три прямоугольные тени. Средняя повторяет твои движения с опозданием, и только в ней отражается гнилой цветок.',
+      en: 'Three rectangular shadows surface in the plaster. The middle one copies your movements a moment late, and only it reflects the rotten flower.',
     },
     {
-      ru: 'Тени становятся тремя чёрными чемоданами вдоль голой стены. «Я дал тебе три выбора, чтобы клетка казалась игрой. Ищи латунный угол и ручку, стёртую до светлой кожи».',
-      en: 'The shadows become three black suitcases along the bare wall. “I gave you three choices so the cage would resemble a game. Look for the brass corner and the handle worn down to pale leather.”',
+      ru: 'Тени становятся тремя чёрными чемоданами вдоль голой стены. Он не смотрит на них. «Латунный угол и ручка, стёртая до светлой кожи. Этого хватит».',
+      en: 'The shadows become three black suitcases along the bare wall. He does not look at them. “A brass corner and a handle worn down to pale leather. That will be enough.”',
     },
   ],
   'passenger-20': [

@@ -25,7 +25,7 @@ export function GamePage() {
       <header className="asset-gallery__header">
         <Link href="/">← {language === 'ru' ? 'Назад' : 'Back'}</Link>
         <h1>{language === 'ru' ? 'Персонажи и чемоданы' : 'Characters and suitcases'}</h1>
-        <Link href="/play" className="asset-gallery__play-link">
+        <Link href="/reception" className="asset-gallery__play-link">
           {language === 'ru' ? 'Игровое меню →' : 'Play menu →'}
         </Link>
       </header>

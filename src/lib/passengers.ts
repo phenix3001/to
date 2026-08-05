@@ -39,7 +39,7 @@ const definitions: PassengerDefinition[] = [
   { id: 'passenger-16', name: { ru: 'Оливер Фелл', en: 'Oliver Fell' }, profession: { ru: 'Кошатник, живёт на доход от депозита', en: 'Cat lover living on investment income' } },
   { id: 'passenger-17', name: { ru: 'Бруно Хейл', en: 'Bruno Hale' }, profession: { ru: 'Философ', en: 'Philosopher' } },
   { id: 'passenger-18', name: { ru: 'Леон Харт', en: 'Leon Hart' }, profession: { ru: 'Собачник, ничем не занят', en: 'Dog lover, currently unemployed' } },
-  { id: 'passenger-19', name: { ru: 'Мистер Блэк', en: 'Mr. Black' }, profession: { ru: 'Неизвестен, опасен и пугающ', en: 'Unknown, dangerous and frightening' } },
+  { id: 'passenger-19', name: { ru: 'Мистер Блэк', en: 'Mr. Black' }, profession: { ru: 'Данные отсутствуют', en: 'No record found' } },
   { id: 'passenger-20', name: { ru: 'Морган Найт', en: 'Morgan Night' }, profession: { ru: 'Просто красивая и прикольная девушка', en: 'A cool and beautiful girl' } },
 ];
 

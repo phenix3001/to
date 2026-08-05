@@ -85,24 +85,24 @@ export const dayFiveDialogues = [
     storyBeats: dayFiveStoryBeats['passenger-19'],
     specialReaction: {
       annoyanceThreshold: 2, effect: 'hit',
-      text: { ru: 'Перехватывает твою руку и прижимает к холодной стене. «Не сбивай порядок реплик. Боль убеждает душу в существовании тела, а повтор — комнаты. Запомни: {detail}»', en: 'Catches your hand and presses it to the cold wall. “Do not disturb the order of the lines. Pain convinces a soul that it has a body; repetition convinces it that the room exists. Remember: {detail}”' },
+      text: { ru: 'Перехватывает твою руку и прижимает к холодной стене. «Не заставляй меня повторять. Эта комната слишком хорошо хранит эхо. Запомни: {detail}»', en: 'Catches your hand and pins it to the cold wall. “Do not make me repeat myself. This room keeps echoes far too well. Remember: {detail}”' },
     },
-    opening: { ru: 'Здравствуй. Я не касался ручки, но дверь сама открылась и впустила меня. Не удивляйся: она давно знает, когда пропустить того, кто придумал эту вселенную.', en: 'Hello. I did not touch the handle, yet the door opened and let me in. Do not be surprised: it has long known when to admit the one who designed this universe.' },
+    opening: { ru: 'Здравствуй. Я не касался ручки — дверь открылась сама. Похоже, она меня узнала.', en: 'Hello. I did not touch the handle—the door opened on its own. It seems to have recognized me.' },
     choices: [
       {
         id: 'feature',
         text: { ru: 'Как выглядит ваша пропажа?', en: 'What does your missing case look like?' },
-        response: { ru: 'Чёрный чемодан с латунным углом и ручкой, стёртой до светлой кожи. Эти следы я добавил, чтобы тебе было что узнавать.', en: 'A black suitcase with a brass corner and a handle worn down to pale leather. I added those marks so you would have something to recognize.' },
+        response: { ru: 'Чёрный чемодан с латунным углом и ручкой, стёртой до светлой кожи. Потёртость заметна, только если смотреть от двери.', en: 'A black suitcase with a brass corner and a handle worn down to pale leather. The worn patch is visible only when viewed from the doorway.' },
       },
       {
         id: 'contents',
         text: { ru: 'Что должно быть внутри?', en: 'What should be inside?' },
-        response: { ru: 'Складной зонт, латунный ключ и красная книга. Она начинается словами, которые ты считаешь своим первым воспоминанием.', en: 'A folding umbrella, a brass key, and a red book. It begins with the words you mistake for your first memory.' },
+        response: { ru: 'Складной зонт, латунный ключ и красная книга без названия. Первая страница вырвана — не спрашивай кем.', en: 'A folding umbrella, a brass key, and an untitled red book. Its first page has been torn out—do not ask by whom.' },
       },
       {
         id: 'location',
         text: { ru: 'Где искать этот чемодан?', en: 'Where should we search for that suitcase?' },
-        response: { ru: 'У едва заметной трещины за горшком с гнилым цветком. До моего входа её не было; комната перерисовывает стену, когда дверь закрывается за новым посетителем.', en: 'By a hairline crack behind the pot holding the rotten flower. It was not there before I entered; the room redraws the wall when the door closes behind a new visitor.' },
+        response: { ru: 'У едва заметной трещины за горшком с гнилым цветком. Из неё тянуло холодом, хотя за стеной ничего нет.', en: 'By a hairline crack behind the pot with the rotten flower. Cold air came through it, although there is nothing beyond the wall.' },
       },
     ],
   },

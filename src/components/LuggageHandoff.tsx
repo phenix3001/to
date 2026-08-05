@@ -24,6 +24,11 @@ const uiText = {
   },
 } as const;
 
+const finalNightmareText = {
+  ru: 'Мистер Блэк не касается чемодана. За твоей спиной щёлкает замок. «Теперь посмотри, кто остался в отражении».',
+  en: 'Mr. Black does not touch the suitcase. The lock clicks behind you. “Now look at who remains in the reflection.”',
+} as const;
+
 interface LuggageHandoffProps {
   passengerId: PassengerId;
   encounterNumber: number;
@@ -50,6 +55,11 @@ export function LuggageHandoff({
     [encounterNumber, passengerId],
   );
   const copy = uiText[language];
+  const feedbackText = feedback === 'correct'
+    && passengerId === 'passenger-19'
+    && encounterNumber >= 3
+    ? finalNightmareText[language]
+    : feedback ? copy[feedback] : '';
 
   useEffect(() => {
     if (isResolved) continueRef.current?.focus();
@@ -99,7 +109,7 @@ export function LuggageHandoff({
       </div>
       {feedback && (
         <p className={`luggage-handoff__feedback luggage-handoff__feedback--${feedback}`} role="status">
-          {copy[feedback]}
+          {feedbackText}
         </p>
       )}
       {isResolved && (

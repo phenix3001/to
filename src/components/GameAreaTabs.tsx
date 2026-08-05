@@ -19,8 +19,8 @@ export function GameAreaTabs({ activeArea }: { activeArea: GameArea }) {
     };
   const isGoingUp = activeArea === 'room';
   const destination = isGoingUp
-    ? { href: '/reception', label: labels.reception, arrow: '↑', direction: 'up' }
-    : { href: '/play', label: labels.room, arrow: '↓', direction: 'down' };
+    ? { href: '/reception', label: labels.reception, direction: 'up' }
+    : { href: '/play', label: labels.room, direction: 'down' };
 
   return (
     <nav
@@ -33,7 +33,14 @@ export function GameAreaTabs({ activeArea }: { activeArea: GameArea }) {
         aria-label={destination.label}
         title={destination.label}
       >
-        <span aria-hidden="true">{destination.arrow}</span>
+        <svg
+          className="game-area-tabs__icon"
+          viewBox="0 0 100 100"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M4 8Q4 1 10 4L91 46Q99 50 91 54L10 96Q4 99 4 92Z" />
+        </svg>
       </Link>
     </nav>
   );

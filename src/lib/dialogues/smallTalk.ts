@@ -65,22 +65,22 @@ const smallTalkSets = [
       response: { ru: '«Больше, чем хотелось бы. Начнём с этого: {detail}»', en: '“More than I would like. Begin with this: {detail}”' },
     },
     location: {
-      text: { ru: 'Вы смотрите так, будто уже знаете эту комнату.', en: 'You look as if you already know this room.' },
-      response: { ru: '«Возможно. Или комнаты повторяются». Багаж исчез здесь: {detail}', en: '“Perhaps. Or rooms repeat themselves.” The luggage vanished here: {detail}' },
+      text: { ru: 'Где вы видели багаж в последний раз?', en: 'Where did you last see the luggage?' },
+      response: { ru: '«Иногда места повторяются». Последний раз багаж был здесь: {detail}', en: '“Sometimes places repeat themselves.” The luggage was last seen here: {detail}' },
     },
   },
   {
     feature: {
-      text: { ru: 'Я не слышал, как открылась дверь. Как вы вошли?', en: 'I did not hear the door open. How did you enter?' },
-      response: { ru: '«Дверь сама помнит, когда меня впускать». Затем добавляет: {detail}', en: '“The door remembers when to let me in.” Then adds: {detail}' },
+      text: { ru: 'По какой примете я узнаю ваш чемодан?', en: 'Which mark will identify your suitcase?' },
+      response: { ru: '«Смотри на углы, не на середину. Его выдаёт вот что: {detail}»', en: '“Watch the edges, not the center. This will give it away: {detail}”' },
     },
     contents: {
-      text: { ru: 'Вы пришли за багажом или снова за мной?', en: 'Did you come for the luggage, or for me again?' },
-      response: { ru: '«Это один и тот же поиск. Пока ищи содержимое: {detail}»', en: '“They are the same search. For now, look for these contents: {detail}”' },
+      text: { ru: 'Что должно быть внутри?', en: 'What should be inside?' },
+      response: { ru: '«Не всё внутри должно быть найдено. Но ищи это: {detail}»', en: '“Not everything inside should be found. But look for this: {detail}”' },
     },
     location: {
-      text: { ru: 'Дверь была заперта. Откуда вы пришли?', en: 'The door was locked. Where did you come from?' },
-      response: { ru: '«Из-за стены, которую ты считаешь настоящей». Багаж появился здесь: {detail}', en: '“From behind the wall you believe is real.” The luggage appeared here: {detail}' },
+      text: { ru: 'Где вы оставили чемодан перед пропажей?', en: 'Where did you leave the suitcase before it vanished?' },
+      response: { ru: '«Там, где свет не достаёт до пола. Последний след был здесь: {detail}»', en: '“Where the light does not reach the floor. The final trace was here: {detail}”' },
     },
   },
 ] satisfies readonly SmallTalkSet[];
